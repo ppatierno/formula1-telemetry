@@ -11,7 +11,7 @@ public class PacketHeader {
     private short gameMajorVersion;
     private short gameMinorVersion;
     private short packetVersion;
-    private short packetId;
+    private PacketId packetId;
     private BigInteger sessionUid;
     private float sessionTime;
     private long frameIdentifier;
@@ -65,11 +65,11 @@ public class PacketHeader {
     /**
      * @return identifier for the packet type
      */
-    public short getPacketId() {
+    public PacketId getPacketId() {
         return packetId;
     }
 
-    public void setPacketId(short packetId) {
+    public void setPacketId(PacketId packetId) {
         this.packetId = packetId;
     }
 
