@@ -8,4 +8,10 @@ package io.ppatierno;
  */
 public class PacketCarStatusData extends Packet {
     // TODO
+
+    @Override
+    public String toString() {
+        return super.toString();
+        // TODO return complete instance
+    }
 }

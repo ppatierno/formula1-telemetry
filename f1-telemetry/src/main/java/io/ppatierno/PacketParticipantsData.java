@@ -9,4 +9,10 @@ package io.ppatierno;
  */
 public class PacketParticipantsData extends Packet {
     // TODO
+
+    @Override
+    public String toString() {
+        return super.toString();
+        // TODO return complete instance
+    }
 }

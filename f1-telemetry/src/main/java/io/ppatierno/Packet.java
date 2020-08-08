@@ -6,7 +6,7 @@ package io.ppatierno;
 public class Packet {
 
     // header
-    private PacketHeader header = new PacketHeader();
+    protected PacketHeader header = new PacketHeader();
 
     public PacketHeader getHeader() {
         return header;
@@ -14,5 +14,10 @@ public class Packet {
 
     public void setHeader(PacketHeader header) {
         this.header = header;
-    }   
+    }
+    
+    @Override
+    public String toString() {
+        return this.header.toString();
+    }
 }
