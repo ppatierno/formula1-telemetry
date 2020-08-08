@@ -12,7 +12,7 @@ public class PacketHeader {
     private short gameMinorVersion;
     private short packetVersion;
     private short packetId;
-    private BigInteger sessionId;
+    private BigInteger sessionUid;
     private float sessionTime;
     private long frameIdentifier;
     private short playerCarIndex;
@@ -76,12 +76,12 @@ public class PacketHeader {
     /**
      * @return unique identifier for the session
      */
-    public BigInteger getSessionId() {
-        return sessionId;
+    public BigInteger getSessionUid() {
+        return sessionUid;
     }
 
-    public void setSessionId(BigInteger sessionId) {
-        this.sessionId = sessionId;
+    public void setSessionUid(BigInteger sessionUid) {
+        this.sessionUid = sessionUid;
     }
 
     /**
@@ -126,5 +126,20 @@ public class PacketHeader {
 
     public void setSecondaryPlayerCarIndex(short secondaryPlayerCarIndex) {
         this.secondaryPlayerCarIndex = secondaryPlayerCarIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "Header[format=" + this.packetFormat +
+                ",major=" + this.gameMajorVersion +
+                ",minor=" + this.gameMinorVersion +
+                ",version=" + this.packetVersion + 
+                ",id=" + this.packetId +
+                ",sessionUid=" + this.sessionUid +
+                ",sessionTime=" + this.sessionTime +
+                ",frameIdentifier=" + this.frameIdentifier +
+                ",playerCarIndex=" + this.playerCarIndex +
+                ",secondaryPlayerCarIndex=" + this.secondaryPlayerCarIndex +
+                "]";
     }
 }
