@@ -11,6 +11,7 @@
 
   <modules>
       <module>f1-telemetry</module>
+      <module>f1-telemetry-monitor</module>
   </modules>
 
   <properties>
@@ -24,9 +25,19 @@
   <dependencyManagement>
       <dependencies>
           <dependency>
+              <groupId>io.ppatierno</groupId>
+              <artifactId>f1-telemetry</artifactId>
+              <version>${project.version}</version>
+          </dependency>
+          <dependency>
               <groupId>io.netty</groupId>
               <artifactId>netty-buffer</artifactId>
               <version>${netty.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
           </dependency>
           <dependency>
               <groupId>junit</groupId>
