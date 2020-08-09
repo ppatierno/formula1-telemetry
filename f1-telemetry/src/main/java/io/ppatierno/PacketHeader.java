@@ -23,7 +23,7 @@ public class PacketHeader {
     private short secondaryPlayerCarIndex;
 
     /**
-     * @return packet format (i.e. 2020)
+     * @return Packet format (i.e. 2020)
      */
     public int getPacketFormat() {
         return packetFormat;
@@ -34,7 +34,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return game major version - "X.00"
+     * @return Game major version - "X.00"
      */
     public short getGameMajorVersion() {
         return gameMajorVersion;
@@ -45,7 +45,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return game minor version - "1.XX"
+     * @return Game minor version - "1.XX"
      */
     public short getGameMinorVersion() {
         return gameMinorVersion;
@@ -56,7 +56,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return version of this packet type, all start from 1
+     * @return Version of this packet type, all start from 1
      */
     public short getPacketVersion() {
         return packetVersion;
@@ -67,7 +67,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return identifier for the packet type
+     * @return Identifier for the packet type
      */
     public PacketId getPacketId() {
         return packetId;
@@ -78,7 +78,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return unique identifier for the session
+     * @return Unique identifier for the session
      */
     public BigInteger getSessionUid() {
         return sessionUid;
@@ -89,7 +89,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return session timestamp
+     * @return Session timestamp
      */
     public float getSessionTime() {
         return sessionTime;
@@ -100,7 +100,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return identifier for the frame the data was retrieved on
+     * @return Identifier for the frame the data was retrieved on
      */
     public long getFrameIdentifier() {
         return frameIdentifier;
@@ -111,7 +111,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return index of player's car in the array
+     * @return Index of player's car in the array
      */
     public short getPlayerCarIndex() {
         return playerCarIndex;
@@ -122,7 +122,7 @@ public class PacketHeader {
     }
 
     /**
-     * @return index of secondary player's car in the array (splitscreen). 255 if no second player.
+     * @return Index of secondary player's car in the array (splitscreen). 255 if no second player.
      */
     public short getSecondaryPlayerCarIndex() {
         return secondaryPlayerCarIndex;
