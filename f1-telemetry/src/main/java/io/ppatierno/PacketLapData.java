@@ -29,10 +29,10 @@ public class PacketLapData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("LapData[");
+        StringBuilder sb = new StringBuilder("LapData[");
+        sb.append(super.toString() + ",");
         for (LapData l : lapData) {
-            sb.append(l.toString() + "\n");
+            sb.append(l.toString() + ",");
         }
         sb.append("]");
         return sb.toString();

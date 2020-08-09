@@ -280,9 +280,9 @@ public class PacketSessionData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SessionData[");
-        sb.append("weather=" + this.weather);
+        StringBuilder sb = new StringBuilder("SessionData[");
+        sb.append(super.toString());
+        sb.append(",weather=" + this.weather);
         sb.append(",trackTemperature=" + this.trackTemperature);
         sb.append(",airTemperature=" + this.airTemperature);
         sb.append(",totalLaps=" + this.totalLaps);
@@ -299,13 +299,13 @@ public class PacketSessionData extends Packet {
         sb.append(",sliProNativeSupport=" + this.sliProNativeSupport);
         sb.append(",numMarshalZones=" + this.numMarshalZones);
         for (MarshalZone m: marshalZones) {
-            sb.append(m.toString() + "\n");
+            sb.append(m.toString() + ",");
         }
         sb.append(",safetyCarStatus=" + this.safetyCarStatus);
         sb.append(",networkGame=" + this.networkGame);
         sb.append(",numWeatherForecastSamples=" + this.numWeatherForecastSamples);
         for (WeatherForecastSample w : weatherForecastSamples) {
-            sb.append(w.toString() + "\n");
+            sb.append(w.toString() + ",");
         }
         sb.append("]");
         return sb.toString();

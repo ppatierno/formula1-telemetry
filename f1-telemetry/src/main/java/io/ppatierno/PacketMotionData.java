@@ -42,10 +42,10 @@ public class PacketMotionData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MotionData[");
+        StringBuilder sb = new StringBuilder("MotionData[");
+        sb.append(super.toString() + ",");
         for (CarMotionData car : carMotionData) {
-            sb.append(car.toString() + "\n");
+            sb.append(car.toString() + ",");
         }
         sb.append(extraCarMotionData.toString());
         sb.append("]");
