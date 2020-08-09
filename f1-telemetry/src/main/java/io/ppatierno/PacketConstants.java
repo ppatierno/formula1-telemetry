@@ -10,4 +10,8 @@ public class PacketConstants {
     public static final int CARS = 22;
     // number of wheels
     public static final int WHEELS = 4;
+    // wather forecast samples
+    public static final int WEATHER_FORECAST_SAMPLES = 20;
+    // marshal zones
+    public static final int MARSHAL_ZONES = 21;
 }

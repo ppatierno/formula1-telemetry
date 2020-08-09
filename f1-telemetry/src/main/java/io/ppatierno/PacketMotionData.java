@@ -18,6 +18,28 @@ public class PacketMotionData extends Packet {
     private List<CarMotionData> carMotionData = new ArrayList<>();
     private ExtraCarMotionData extraCarMotionData;
 
+    /**
+     * @return Car(s) motion data
+     */
+    public List<CarMotionData> getCarMotionData() {
+        return carMotionData;
+    }
+
+    public void setCarMotionData(List<CarMotionData> carMotionData) {
+        this.carMotionData = carMotionData;
+    }
+
+    /**
+     * @return Extra player car only data
+     */
+    public ExtraCarMotionData getExtraCarMotionData() {
+        return extraCarMotionData;
+    }
+
+    public void setExtraCarMotionData(ExtraCarMotionData extraCarMotionData) {
+        this.extraCarMotionData = extraCarMotionData;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
