@@ -18,6 +18,17 @@ public class PacketCarSetupData extends Packet {
     
     private List<CarSetupData> carSetupData = new ArrayList<>();
 
+    /**
+     * @return Car setup data for all cars
+     */
+    public List<CarSetupData> getCarSetupData() {
+        return carSetupData;
+    }
+
+    public void setCarSetupData(List<CarSetupData> carSetupData) {
+        this.carSetupData = carSetupData;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("CarSetupData[");
