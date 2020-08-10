@@ -298,12 +298,14 @@ public class PacketSessionData extends Packet {
         sb.append(",spectatorCarIndex" + this.spectatorCarIndex);
         sb.append(",sliProNativeSupport=" + this.sliProNativeSupport);
         sb.append(",numMarshalZones=" + this.numMarshalZones);
+        sb.append(",marshalZones=");
         for (MarshalZone m: marshalZones) {
             sb.append(m.toString() + ",");
         }
-        sb.append(",safetyCarStatus=" + this.safetyCarStatus);
+        sb.append("safetyCarStatus=" + this.safetyCarStatus);
         sb.append(",networkGame=" + this.networkGame);
         sb.append(",numWeatherForecastSamples=" + this.numWeatherForecastSamples);
+        sb.append(",weatherForecastSamples=");
         for (WeatherForecastSample w : weatherForecastSamples) {
             sb.append(w.toString() + ",");
         }

@@ -43,11 +43,12 @@ public class PacketMotionData extends Packet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("MotionData[");
-        sb.append(super.toString() + ",");
+        sb.append(super.toString());
+        sb.append(",carMotionData=");
         for (CarMotionData car : carMotionData) {
             sb.append(car.toString() + ",");
         }
-        sb.append(extraCarMotionData.toString());
+        sb.append("extraCarMotionData=" + extraCarMotionData.toString());
         sb.append("]");
         return sb.toString();
     }

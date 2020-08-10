@@ -32,6 +32,7 @@ public class PacketCarStatusData extends Packet {
     public String toString() {
         StringBuilder sb = new StringBuilder("CarStatusData[");
         sb.append(super.toString());
+        sb.append(",carStatusData=");
         for (CarStatusData c : carStatusData) {
             sb.append(c.toString() + ",");
         }

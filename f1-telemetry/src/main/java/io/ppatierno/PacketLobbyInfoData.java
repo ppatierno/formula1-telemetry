@@ -44,7 +44,8 @@ public class PacketLobbyInfoData extends Packet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("LobbyInfoData[");
-        sb.append("numPlayers=" + this.numPlayers);
+        sb.append(super.toString());
+        sb.append(",numPlayers=" + this.numPlayers);
         sb.append(",lobbyInfoData=");
         for (LobbyInfoData l : lobbyInfoData) {
             sb.append(l.toString() + ",");

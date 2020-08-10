@@ -85,6 +85,8 @@ public class PacketCarTelemetryData extends Packet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("CarTelemetryData[");
+        sb.append(super.toString());
+        sb.append(",carTelemetryData=");
         for (CarTelemetryData c : carTelemetryData) {
             sb.append(c.toString() + ",");
         }

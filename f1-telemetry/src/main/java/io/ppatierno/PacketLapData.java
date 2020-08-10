@@ -30,7 +30,8 @@ public class PacketLapData extends Packet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("LapData[");
-        sb.append(super.toString() + ",");
+        sb.append(super.toString());
+        sb.append(",lapData=");
         for (LapData l : lapData) {
             sb.append(l.toString() + ",");
         }

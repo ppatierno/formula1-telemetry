@@ -46,6 +46,7 @@ public class PacketParticipantsData extends Packet {
         StringBuilder sb = new StringBuilder("ParticipantsData[");
         sb.append(super.toString());
         sb.append(",numActiveCars=" + this.numActiveCars);
+        sb.append(",participants=");
         for (ParticipantData p : participants) {
             sb.append(p.toString() + ",");
         }

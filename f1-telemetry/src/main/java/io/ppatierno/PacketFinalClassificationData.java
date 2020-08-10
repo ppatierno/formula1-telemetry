@@ -45,6 +45,7 @@ public class PacketFinalClassificationData extends Packet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("FinalClassificationData[");
+        sb.append(super.toString());
         sb.append("numCars=" + this.numCars);
         sb.append(",finalClassificationData=");
         for (FinalClassificationData f : finalClassificationData) {
