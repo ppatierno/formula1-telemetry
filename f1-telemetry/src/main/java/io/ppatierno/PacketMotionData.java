@@ -5,6 +5,7 @@
 package io.ppatierno;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -47,8 +48,8 @@ public class PacketMotionData extends Packet {
         StringBuilder sb = new StringBuilder("MotionData[");
         sb.append(super.toString());
         sb.append(",carMotionData=");
-        for (CarMotionData car : carMotionData) {
-            sb.append(car.toString() + ",");
+        for (CarMotionData cmd : carMotionData) {
+            sb.append(cmd.toString() + ",");
         }
         sb.append("extraCarMotionData=" + extraCarMotionData.toString());
         sb.append("]");
@@ -58,7 +59,53 @@ public class PacketMotionData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        for (int i = 0; i < PacketConstants.CARS; i++) {
+            CarMotionData cmd = new CarMotionData();
+            cmd.setWorldPositionX(buffer.readFloatLE());
+            cmd.setWorldPositionY(buffer.readFloatLE());
+            cmd.setWorldPositionZ(buffer.readFloatLE());
+            cmd.setWorldVelocityX(buffer.readFloatLE());
+            cmd.setWorldVelocityY(buffer.readFloatLE());
+            cmd.setWorldVelocityZ(buffer.readFloatLE());
+            cmd.setWorldForwardDirX(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setWorldForwardDirY(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setWorldForwardDirZ(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setWorldRightDirX(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setWorldRightDirY(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setWorldRightDirZ(PacketUtils.normalizedVectorToFloat(buffer.readShortLE()));
+            cmd.setgForceLateral(buffer.readFloatLE());
+            cmd.setgForceLongitudinal(buffer.readFloatLE());
+            cmd.setgForceVertical(buffer.readFloatLE());
+            cmd.setYaw(buffer.readFloatLE());
+            cmd.setPitch(buffer.readFloatLE());
+            cmd.setRoll(buffer.readFloatLE());
+            this.carMotionData.add(cmd);
+        }
+        for (int i = 0; i < PacketConstants.WHEELS; i++) {
+            this.extraCarMotionData.getSuspensionPosition()[i] = buffer.readFloatLE();
+        }
+        for (int i = 0; i < PacketConstants.WHEELS; i++) {
+            this.extraCarMotionData.getSuspensionVelocity()[i] = buffer.readFloatLE();
+        }
+        for (int i = 0; i < PacketConstants.WHEELS; i++) {
+            this.extraCarMotionData.getSuspensionAcceleration()[i] = buffer.readFloatLE();
+        }
+        for (int i = 0; i < PacketConstants.WHEELS; i++) {
+            this.extraCarMotionData.getWheelSpeed()[i] = buffer.readFloatLE();
+        }
+        for (int i = 0; i < PacketConstants.WHEELS; i++) {
+            this.extraCarMotionData.getWheelSlip()[i] = buffer.readFloatLE();
+        }
+        this.extraCarMotionData.setLocalVelocityX(buffer.readFloatLE());
+        this.extraCarMotionData.setLocalVelocityY(buffer.readFloatLE());
+        this.extraCarMotionData.setLocalVelocityZ(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularVelocityX(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularVelocityY(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularVelocityZ(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularAccelerationX(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularAccelerationY(buffer.readFloatLE());
+        this.extraCarMotionData.setAngularAccelerationZ(buffer.readFloatLE());
+        this.extraCarMotionData.setFrontWheelsAngle(buffer.readFloatLE());
         return this;
     }
 
@@ -308,11 +355,11 @@ public class PacketMotionData extends Packet {
     class ExtraCarMotionData {
 
         // Wheels in order: RL, RR, FL, FR.
-        private float[] suspensionPosition;
-        private float[] suspensionVelocity;
-        private float[] suspensionAcceleration;
-        private float[] wheelSpeed;
-        private float[] wheelSlip;
+        private float[] suspensionPosition = new float[PacketConstants.WHEELS];
+        private float[] suspensionVelocity = new float[PacketConstants.WHEELS];
+        private float[] suspensionAcceleration = new float[PacketConstants.WHEELS];
+        private float[] wheelSpeed = new float[PacketConstants.WHEELS];
+        private float[] wheelSlip = new float[PacketConstants.WHEELS];
         private float localVelocityX;
         private float localVelocityY;
         private float localVelocityZ;
@@ -491,11 +538,11 @@ public class PacketMotionData extends Packet {
 
         @Override
         public String toString() {
-            return "ExtraCarMotionData[suspensionPosition=" + this.suspensionPosition +
-                    ",suspensionVelocity=" + this.suspensionVelocity +
-                    ",suspensionAcceleration= " + this.suspensionAcceleration +
-                    ",wheelSpeed=" + this.wheelSpeed +
-                    ",wheelSlip=" + this.wheelSlip +
+            return "ExtraCarMotionData[suspensionPosition=" + Arrays.toString(this.suspensionPosition) +
+                    ",suspensionVelocity=" + Arrays.toString(this.suspensionVelocity) +
+                    ",suspensionAcceleration= " + Arrays.toString(this.suspensionAcceleration) +
+                    ",wheelSpeed=" + Arrays.toString(this.wheelSpeed) +
+                    ",wheelSlip=" + Arrays.toString(this.wheelSlip) +
                     ",localVelocityX=" + this.localVelocityX +
                     ",localVelocityY=" + this.localVelocityY +
                     ",localVelocityZ=" + this.localVelocityZ +

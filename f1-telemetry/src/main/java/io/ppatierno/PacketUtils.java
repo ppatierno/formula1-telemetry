@@ -24,4 +24,14 @@ public class PacketUtils {
         buffer.skipBytes(maxLength - result);
         return s;
     }
+
+    /**
+     * Convert a normalized vector represented as 16-bit signed value to float
+     * 
+     * @param value normalized vector represented as 16-bit signed value
+     * @return normalized vector as float
+     */
+    public static float normalizedVectorToFloat(short value) {
+        return value / 32767.0f;
+    }
 }
