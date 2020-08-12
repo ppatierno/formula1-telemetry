@@ -18,7 +18,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketMotionData extends Packet {
     
-    private List<CarMotionData> carMotionData = new ArrayList<>();
+    private List<CarMotionData> carMotionData = new ArrayList<>(PacketConstants.CARS);
     private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
 
     /**

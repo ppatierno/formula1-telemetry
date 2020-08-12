@@ -32,11 +32,11 @@ public class PacketSessionData extends Packet {
     private short spectatorCarIndex;
     private short sliProNativeSupport;
     private short numMarshalZones;
-    private List<MarshalZone> marshalZones = new ArrayList<>();
+    private List<MarshalZone> marshalZones = new ArrayList<>(PacketConstants.MARSHAL_ZONES);
     private short safetyCarStatus;
     private short networkGame;
     private short numWeatherForecastSamples;
-    private List<WeatherForecastSample> weatherForecastSamples = new ArrayList<>();
+    private List<WeatherForecastSample> weatherForecastSamples = new ArrayList<>(PacketConstants.WEATHER_FORECAST_SAMPLES);
 
     /**
      * @return Weather
@@ -301,15 +301,15 @@ public class PacketSessionData extends Packet {
         sb.append(",sliProNativeSupport=" + this.sliProNativeSupport);
         sb.append(",numMarshalZones=" + this.numMarshalZones);
         sb.append(",marshalZones=");
-        for (MarshalZone m: marshalZones) {
-            sb.append(m.toString() + ",");
+        for (MarshalZone mz: marshalZones) {
+            sb.append(mz.toString() + ",");
         }
         sb.append("safetyCarStatus=" + this.safetyCarStatus);
         sb.append(",networkGame=" + this.networkGame);
         sb.append(",numWeatherForecastSamples=" + this.numWeatherForecastSamples);
         sb.append(",weatherForecastSamples=");
-        for (WeatherForecastSample w : weatherForecastSamples) {
-            sb.append(w.toString() + ",");
+        for (WeatherForecastSample wfs : weatherForecastSamples) {
+            sb.append(wfs.toString() + ",");
         }
         sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return sb.toString();
@@ -318,7 +318,40 @@ public class PacketSessionData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        this.weather = buffer.readUnsignedByte();
+        this.trackTemperature = buffer.readByte();
+        this.airTemperature = buffer.readByte();
+        this.totalLaps = buffer.readUnsignedByte();
+        this.trackLength = buffer.readUnsignedShortLE();
+        this.sessionType = buffer.readUnsignedByte();
+        this.trackId = buffer.readByte();
+        this.formula = buffer.readUnsignedByte();
+        this.sessionTimeLeft = buffer.readUnsignedShortLE();
+        this.sessionDuration = buffer.readUnsignedShortLE();
+        this.pitSpeedLimit = buffer.readUnsignedByte();
+        this.gamePaused = buffer.readUnsignedByte();
+        this.isSpectating = buffer.readUnsignedByte();
+        this.spectatorCarIndex = buffer.readUnsignedByte();
+        this.sliProNativeSupport = buffer.readUnsignedByte();
+        this.numMarshalZones = buffer.readUnsignedByte();
+        for (int i = 0; i < PacketConstants.MARSHAL_ZONES; i++) {
+            MarshalZone mz = new MarshalZone();
+            mz.setZoneStart(buffer.readFloat());
+            mz.setZoneFlag(buffer.readByte());
+            this.marshalZones.add(mz);
+        }
+        this.safetyCarStatus = buffer.readUnsignedByte();
+        this.networkGame = buffer.readUnsignedByte();
+        this.numWeatherForecastSamples = buffer.readUnsignedByte();
+        for (int i = 0; i < PacketConstants.WEATHER_FORECAST_SAMPLES; i++) {
+            WeatherForecastSample wfs = new WeatherForecastSample();
+            wfs.setSessionType(buffer.readUnsignedByte());
+            wfs.setTimeOffset(buffer.readUnsignedByte());
+            wfs.setWeather(buffer.readUnsignedByte());
+            wfs.setTrackTemperature(buffer.readByte());
+            wfs.setAirTemperature(buffer.readByte());
+            this.weatherForecastSamples.add(wfs);
+        }
         return this;
     }
 
