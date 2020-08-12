@@ -20,7 +20,7 @@ import io.netty.buffer.ByteBuf;
 public class PacketFinalClassificationData extends Packet {
     
     private short numCars;
-    private List<FinalClassificationData> finalClassificationData = new ArrayList<>();
+    private List<FinalClassificationData> finalClassificationData = new ArrayList<>(PacketConstants.CARS);
 
     /**
      * @return Number of cars in the final classification
@@ -60,7 +60,28 @@ public class PacketFinalClassificationData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        this.numCars = buffer.readUnsignedByte();
+        for (int i = 0; i < this.numCars; i++) {
+            FinalClassificationData fcd = new FinalClassificationData();
+            fcd.setPosition(buffer.readUnsignedByte());
+            fcd.setNumLaps(buffer.readUnsignedByte());
+            fcd.setGridPosition(buffer.readUnsignedByte());
+            fcd.setPoints(buffer.readUnsignedByte());
+            fcd.setNumPitStops(buffer.readUnsignedByte());
+            fcd.setResultStatus(buffer.readUnsignedByte());
+            fcd.setBestLapTime(buffer.readFloatLE());
+            fcd.setTotalRaceTime(buffer.readDoubleLE());
+            fcd.setPenaltiesTime(buffer.readUnsignedByte());
+            fcd.setNumPenalties(buffer.readUnsignedByte());
+            fcd.setNumTyreStints(buffer.readUnsignedByte());
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                fcd.getTyreStintsActual()[j] = buffer.readUnsignedByte();
+            }
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                fcd.getTyreStintsVisual()[j] = buffer.readUnsignedByte();
+            }
+            this.finalClassificationData.add(fcd);
+        }
         return this;
     }
 
@@ -77,8 +98,8 @@ public class PacketFinalClassificationData extends Packet {
         private short penaltiesTime;
         private short numPenalties;
         private short numTyreStints;
-        private short tyreStintsActual[];
-        private short tyreStintsVisual[];
+        private short tyreStintsActual[] = new short[PacketConstants.TYRE_STINTS];
+        private short tyreStintsVisual[] = new short[PacketConstants.TYRE_STINTS];
 
         /**
          * @return Finishing position

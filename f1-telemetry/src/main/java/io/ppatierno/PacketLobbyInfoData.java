@@ -19,7 +19,7 @@ import io.netty.buffer.ByteBuf;
 public class PacketLobbyInfoData extends Packet {
     
     private short numPlayers;
-    private List<LobbyInfoData> lobbyInfoData = new ArrayList<>();
+    private List<LobbyInfoData> lobbyInfoData = new ArrayList<>(PacketConstants.LOBBY_PLAYERS);
 
     /**
      * @return Number of players in the lobby data
@@ -59,11 +59,22 @@ public class PacketLobbyInfoData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        this.numPlayers = buffer.readUnsignedByte();
+        for (int i = 0; i < this.numPlayers; i++) {
+            LobbyInfoData lid = new LobbyInfoData();
+            lid.setAiControlled(buffer.readUnsignedByte());
+            lid.setTeamId(buffer.readUnsignedByte());
+            lid.setNationality(buffer.readUnsignedByte());
+            lid.setName(PacketUtils.readNullTerminatedString(buffer, LobbyInfoData.NAME_LENGTH));
+            lid.setReadyStatus(buffer.readUnsignedByte());
+            this.lobbyInfoData.add(lid);
+        }
         return this;
     }
 
     class LobbyInfoData {
+
+        public static final int NAME_LENGTH = 48;
 
         private short aiControlled;
         private short teamId;

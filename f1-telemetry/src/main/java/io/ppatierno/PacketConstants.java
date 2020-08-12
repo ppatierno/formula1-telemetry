@@ -14,4 +14,8 @@ public class PacketConstants {
     public static final int WEATHER_FORECAST_SAMPLES = 20;
     // marshal zones
     public static final int MARSHAL_ZONES = 21;
+    // lobby players
+    public static final int LOBBY_PLAYERS = 22;
+    // tyre stints
+    public static final int TYRE_STINTS = 8;
 }
