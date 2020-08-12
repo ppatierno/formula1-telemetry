@@ -18,4 +18,6 @@ public class PacketConstants {
     public static final int LOBBY_PLAYERS = 22;
     // tyre stints
     public static final int TYRE_STINTS = 8;
+    // number of tyres
+    public static final int TYRES = 4;
 }

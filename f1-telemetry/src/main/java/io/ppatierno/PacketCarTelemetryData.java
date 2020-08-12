@@ -5,6 +5,7 @@
 package io.ppatierno;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -18,7 +19,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketCarTelemetryData extends Packet {
     
-    private List<CarTelemetryData> carTelemetryData = new ArrayList<>();
+    private List<CarTelemetryData> carTelemetryData = new ArrayList<>(PacketConstants.CARS);
     private long buttonStatus;
     private short mfdPanelIndex;
     private short mfdPanelIndexSecondaryPlayer;
@@ -103,7 +104,39 @@ public class PacketCarTelemetryData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        for (int i = 0; i < PacketConstants.CARS; i++) {
+            CarTelemetryData ctd = new CarTelemetryData();
+            ctd.setSpeed(buffer.readUnsignedShortLE());
+            ctd.setThrottle(buffer.readFloatLE());
+            ctd.setSteer(buffer.readFloatLE());
+            ctd.setBrake(buffer.readFloatLE());
+            ctd.setClutch(buffer.readUnsignedByte());
+            ctd.setGear(buffer.readByte());
+            ctd.setEngineRPM(buffer.readUnsignedShortLE());
+            ctd.setDrs(buffer.readUnsignedByte());
+            ctd.setRevLightsPercent(buffer.readUnsignedByte());
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                ctd.getBrakesTemperature()[j] = buffer.readUnsignedShortLE();
+            }
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                ctd.getTyresSurfaceTemperature()[j] = buffer.readUnsignedByte();
+            }
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                ctd.getTyresInnerTemperature()[j] = buffer.readUnsignedByte();
+            }
+            ctd.setEngineTemperature(buffer.readUnsignedShortLE());
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                ctd.getTyresPressure()[j] = buffer.readFloatLE();
+            }
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                ctd.getSurfaceType()[j] = buffer.readUnsignedByte();
+            }
+            this.carTelemetryData.add(ctd);
+        }
+        this.buttonStatus = buffer.readUnsignedIntLE();
+        this.mfdPanelIndex = buffer.readUnsignedByte();
+        this.mfdPanelIndexSecondaryPlayer = buffer.readUnsignedByte();
+        this.suggestedGear = buffer.readByte();
         return this;
     }
 
@@ -118,12 +151,12 @@ public class PacketCarTelemetryData extends Packet {
         private int engineRPM;
         private short drs;
         private short revLightsPercent;
-        private int brakesTemperature[];
-        private short tyresSurfaceTemperature[];
-        private short tyresInnerTemperature[];
+        private int brakesTemperature[] = new int[PacketConstants.TYRES];
+        private short tyresSurfaceTemperature[] = new short[PacketConstants.TYRES];
+        private short tyresInnerTemperature[] = new short[PacketConstants.TYRES];
         private int engineTemperature;
-        private float tyresPressure[];
-        private short surfaceType[];
+        private float tyresPressure[] = new float[PacketConstants.TYRES];
+        private short surfaceType[] = new short[PacketConstants.TYRES];
 
         /**
          * @return Speed of car in kilometres per hour
@@ -302,12 +335,12 @@ public class PacketCarTelemetryData extends Packet {
                     ",engineRPM=" + this.engineRPM +
                     ",drs=" + this.drs +
                     ",revLightsPercent=" + this.revLightsPercent +
-                    ",brakesTemperature=" + this.brakesTemperature +
-                    ",tyresSurfaceTemperature=" + this.tyresSurfaceTemperature +
-                    ",tyresInnerTemperature=" + this.tyresInnerTemperature +
+                    ",brakesTemperature=" + Arrays.toString(this.brakesTemperature) +
+                    ",tyresSurfaceTemperature=" + Arrays.toString(this.tyresSurfaceTemperature) +
+                    ",tyresInnerTemperature=" + Arrays.toString(this.tyresInnerTemperature) +
                     ",engineTemperature=" + this.engineTemperature +
-                    ",tyresPressure=" + this.tyresPressure +
-                    ",surfaceType=" + this.surfaceType +
+                    ",tyresPressure=" + Arrays.toString(this.tyresPressure) +
+                    ",surfaceType=" + Arrays.toString(this.surfaceType) +
                     "]";
         }
     }

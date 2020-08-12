@@ -5,6 +5,7 @@
 package io.ppatierno;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -261,8 +262,8 @@ public class PacketFinalClassificationData extends Packet {
                     ",penaltiesTime=" + this.penaltiesTime +
                     ",numPenalties=" + this.numPenalties +
                     ",numTyreStints=" + this.numTyreStints +
-                    ",tyreStintsActual=" + this.tyreStintsActual +
-                    ",tyreStintsVisual=" + this.tyreStintsVisual +
+                    ",tyreStintsActual=" + Arrays.toString(tyreStintsActual) +
+                    ",tyreStintsVisual=" + Arrays.toString(this.tyreStintsVisual) +
                     "]";
         }
     }
