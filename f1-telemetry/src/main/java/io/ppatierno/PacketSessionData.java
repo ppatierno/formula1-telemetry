@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Session Packet
  * 
@@ -309,8 +311,15 @@ public class PacketSessionData extends Packet {
         for (WeatherForecastSample w : weatherForecastSamples) {
             sb.append(w.toString() + ",");
         }
-        sb.append("]");
+        sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class MarshalZone {

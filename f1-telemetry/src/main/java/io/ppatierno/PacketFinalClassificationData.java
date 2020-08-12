@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Final Classification Packet
  * 
@@ -51,8 +53,15 @@ public class PacketFinalClassificationData extends Packet {
         for (FinalClassificationData f : finalClassificationData) {
             sb.append(f.toString() + ",");
         }
-        sb.append("]");
+        sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return  sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class FinalClassificationData {

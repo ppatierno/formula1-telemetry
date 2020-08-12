@@ -4,10 +4,13 @@
  */
 package io.ppatierno;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Event Packet
  * 
- * This packet gives details of events that happen during the course of a session.
+ * This packet gives details of events that happen during the course of a
+ * session.
  */
 public class PacketEventData extends Packet {
     
@@ -44,6 +47,13 @@ public class PacketEventData extends Packet {
         sb.append(",eventDataDetails=" + this.eventDataDetails);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class EventDataDetails {

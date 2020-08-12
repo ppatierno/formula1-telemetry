@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Participants Packet
  * 
@@ -17,7 +19,7 @@ import java.util.List;
 public class PacketParticipantsData extends Packet {
     
     private short numActiveCars;
-    private List<ParticipantData> participants = new ArrayList<>();
+    private List<ParticipantData> participants = new ArrayList<>(PacketConstants.CARS);
 
     /**
      * @return Number of active cars in the data – should match number of cats on HUD
@@ -50,11 +52,31 @@ public class PacketParticipantsData extends Packet {
         for (ParticipantData p : participants) {
             sb.append(p.toString() + ",");
         }
-        sb.append("]");
+        sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return sb.toString();
     }
 
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        this.numActiveCars = buffer.readUnsignedByte();
+        for (int i = 0; i < this.numActiveCars; i++) {
+            ParticipantData pd = new ParticipantData();
+            pd.setAiControlled(buffer.readUnsignedByte());
+            pd.setDriverId(buffer.readUnsignedByte());
+            pd.setTeamId(buffer.readUnsignedByte());
+            pd.setRaceNumber(buffer.readUnsignedByte());
+            pd.setNationality(buffer.readUnsignedByte());
+            pd.setName(PacketUtils.readNullTerminatedString(buffer, ParticipantData.NAME_LENGTH));
+            pd.setYourTelemetry(buffer.readUnsignedByte());
+            this.participants.add(pd);
+        }
+        return this;
+    }
+
     class ParticipantData {
+
+        public static final int NAME_LENGTH = 48;
 
         private short aiControlled;
         private short driverId;

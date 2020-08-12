@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Car Setups Packet
  * 
@@ -37,8 +39,15 @@ public class PacketCarSetupData extends Packet {
         for (CarSetupData c: carSetupData) {
             sb.append(c.toString() + ",");
         }
-        sb.append("]");
+        sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class CarSetupData {

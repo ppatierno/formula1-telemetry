@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Lobby Info Packet
  * 
@@ -50,8 +52,15 @@ public class PacketLobbyInfoData extends Packet {
         for (LobbyInfoData l : lobbyInfoData) {
             sb.append(l.toString() + ",");
         }
-        sb.append("]");
+        sb.replace(sb.length() - 1, sb.length() - 1, "]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class LobbyInfoData {
