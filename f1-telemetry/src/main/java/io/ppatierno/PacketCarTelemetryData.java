@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Car Telemetry Packet
  * 
@@ -96,6 +98,13 @@ public class PacketCarTelemetryData extends Packet {
         sb.append(",suggestedGear=" + this.suggestedGear);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class CarTelemetryData {

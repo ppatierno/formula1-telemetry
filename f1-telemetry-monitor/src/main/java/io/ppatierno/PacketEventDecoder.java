@@ -18,7 +18,7 @@ public class PacketEventDecoder extends MessageToMessageDecoder<DatagramPacket> 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
         ByteBuf buffer = datagramPacket.content();
-        Packet packet = packetDecoder.decode(buffer, Packet::new);
+        Packet packet = packetDecoder.decode(buffer);
         list.add(packet);
     }
 }

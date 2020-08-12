@@ -7,6 +7,8 @@ package io.ppatierno;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 /**
  * Motion Packet
  * 
@@ -16,7 +18,7 @@ import java.util.List;
 public class PacketMotionData extends Packet {
     
     private List<CarMotionData> carMotionData = new ArrayList<>();
-    private ExtraCarMotionData extraCarMotionData;
+    private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
 
     /**
      * @return Car(s) motion data
@@ -51,6 +53,13 @@ public class PacketMotionData extends Packet {
         sb.append("extraCarMotionData=" + extraCarMotionData.toString());
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public Packet fill(ByteBuf buffer) {
+        super.fill(buffer);
+        // TODO: filling packet specific fields
+        return this;
     }
 
     class CarMotionData {
