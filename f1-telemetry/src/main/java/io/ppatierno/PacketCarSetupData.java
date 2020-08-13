@@ -18,7 +18,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketCarSetupData extends Packet {
     
-    private List<CarSetupData> carSetupData = new ArrayList<>();
+    private List<CarSetupData> carSetupData = new ArrayList<>(PacketConstants.CARS);
 
     /**
      * @return Car setup data for all cars
@@ -46,7 +46,32 @@ public class PacketCarSetupData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        for (int i = 0; i < PacketConstants.CARS; i++) {
+            CarSetupData csd = new CarSetupData();
+            csd.setFrontWing(buffer.readUnsignedByte());
+            csd.setRearWing(buffer.readUnsignedByte());
+            csd.setOnThrottle(buffer.readUnsignedByte());
+            csd.setOffThrottle(buffer.readUnsignedByte());
+            csd.setFrontCamber(buffer.readFloatLE());
+            csd.setRearCamber(buffer.readFloatLE());
+            csd.setFrontToe(buffer.readFloatLE());
+            csd.setRearToe(buffer.readFloatLE());
+            csd.setFrontSuspension(buffer.readUnsignedByte());
+            csd.setRearSuspension(buffer.readUnsignedByte());
+            csd.setFrontAntiRollBar(buffer.readUnsignedByte());
+            csd.setRearAntiRollBar(buffer.readUnsignedByte());
+            csd.setFrontSuspensionHeight(buffer.readUnsignedByte());
+            csd.setRearSuspensionHeight(buffer.readUnsignedByte());
+            csd.setBrakePressure(buffer.readUnsignedByte());
+            csd.setBrakeBias(buffer.readUnsignedByte());
+            csd.setRearLeftTyrePressure(buffer.readFloatLE());
+            csd.setRearRightTyrePressure(buffer.readFloatLE());
+            csd.setFrontLeftTyrePressure(buffer.readFloatLE());
+            csd.setFrontRightTyrePressure(buffer.readFloatLE());
+            csd.setBallast(buffer.readUnsignedByte());
+            csd.setFuelLoad(buffer.readFloatLE());
+            this.carSetupData.add(csd);
+        }
         return this;
     }
 

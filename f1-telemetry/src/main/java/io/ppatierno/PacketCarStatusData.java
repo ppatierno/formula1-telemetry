@@ -5,6 +5,7 @@
 package io.ppatierno;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -17,7 +18,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketCarStatusData extends Packet {
     
-    private List<CarStatusData> carStatusData = new ArrayList<>();
+    private List<CarStatusData> carStatusData = new ArrayList<>(PacketConstants.CARS);
 
     /**
      * @return Car status data for all cars
@@ -45,7 +46,44 @@ public class PacketCarStatusData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        for (int i = 0; i < PacketConstants.CARS; i++) {
+            CarStatusData csd = new CarStatusData();
+            csd.setTractionControl(buffer.readUnsignedByte());
+            csd.setAntiLockBrakes(buffer.readUnsignedByte());
+            csd.setFuelMix(buffer.readUnsignedByte());
+            csd.setFrontBrakeBias(buffer.readUnsignedByte());
+            csd.setPitLimiterStatus(buffer.readUnsignedByte());
+            csd.setFuelInTank(buffer.readFloatLE());
+            csd.setFuelCapacity(buffer.readFloatLE());
+            csd.setFuelRemainingLaps(buffer.readFloatLE());
+            csd.setMaxRPM(buffer.readUnsignedShortLE());
+            csd.setIdleRPM(buffer.readUnsignedShortLE());
+            csd.setMaxGears(buffer.readUnsignedByte());
+            csd.setDrsAllowed(buffer.readUnsignedByte());
+            csd.setDrsActivationDistance(buffer.readUnsignedShortLE());
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                csd.getTyresWear()[j] = buffer.readUnsignedByte();
+            }
+            csd.setActualTyreCompound(buffer.readUnsignedByte());
+            csd.setVisualTyreCompound(buffer.readUnsignedByte());
+            csd.setTyresAgeLaps(buffer.readUnsignedByte());
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                csd.getTyresDamage()[j] = buffer.readUnsignedByte();
+            }
+            csd.setFrontLeftWingDamage(buffer.readUnsignedByte());
+            csd.setFrontRightWingDamage(buffer.readUnsignedByte());
+            csd.setRearWingDamage(buffer.readUnsignedByte());
+            csd.setDrsFault(buffer.readUnsignedByte());
+            csd.setEngineDamage(buffer.readUnsignedByte());
+            csd.setGearBoxDamage(buffer.readUnsignedByte());
+            csd.setVehicleFiaFlags(buffer.readByte());
+            csd.setErsStoreEnergy(buffer.readFloatLE());
+            csd.setErsDeployMode(buffer.readUnsignedByte());
+            csd.setErsHarvestedThisLapMGUK(buffer.readFloatLE());
+            csd.setErsHarvestedThisLapMGUH(buffer.readFloatLE());
+            csd.setErsDeployedThisLap(buffer.readFloatLE());
+            this.carStatusData.add(csd);
+        }
         return this;
     }
 
@@ -64,11 +102,11 @@ public class PacketCarStatusData extends Packet {
         private short maxGears;
         private short drsAllowed;
         private int drsActivationDistance;
-        private short tyresWear[];
+        private short tyresWear[] = new short[PacketConstants.TYRES];
         private short actualTyreCompound;
         private short visualTyreCompound;
         private short tyresAgeLaps;
-        private short tyresDamage[];
+        private short tyresDamage[] = new short[PacketConstants.TYRES];
         private short frontLeftWingDamage;
         private short frontRightWingDamage;
         private short rearWingDamage;
@@ -430,8 +468,7 @@ public class PacketCarStatusData extends Packet {
 
         @Override
         public String toString() {
-            return "CarStatusData[" +
-                    ",tractionControl=" + this.tractionControl +
+            return "CarStatusData[tractionControl=" + this.tractionControl +
                     ",antiLockBrakes=" + this.antiLockBrakes +
                     ",fuelMix=" + this.fuelMix +
                     ",frontBrakeBias=" + this.frontBrakeBias +
@@ -444,11 +481,11 @@ public class PacketCarStatusData extends Packet {
                     ",maxGears=" + this.maxGears +
                     ",drsAllowed=" + this.drsAllowed +
                     ",drsActivationDistance=" + this.drsActivationDistance +
-                    ",tyresWear=" + this.tyresWear +
+                    ",tyresWear=" + Arrays.toString(this.tyresWear) +
                     ",actualTyreCompound=" + this.actualTyreCompound +
                     ",visualTyreCompound=" + this.visualTyreCompound +
                     ",tyresAgeLaps=" + this.tyresAgeLaps +
-                    ",tyresDamage=" + this.tyresDamage +
+                    ",tyresDamage=" + Arrays.toString(this.tyresDamage) +
                     ",frontLeftWingDamage=" + this.frontLeftWingDamage +
                     ",frontRightWingDamage=" + this.frontRightWingDamage +
                     ",rearWingDamage=" + this.rearWingDamage +
