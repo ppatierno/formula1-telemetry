@@ -12,14 +12,16 @@ public class PacketUtils {
     
     /**
      * Get the String instance from the related bytes in the input buffer
-     * representing a null terminated string
+     * The string can be null terminated or filling the buffer until the end
      * 
      * @param buffer buffer containing the string bytes
      * @param maxLength max length of the string
      * @return String instace
      */
-    public static String readNullTerminatedString(ByteBuf buffer, int maxLength) {
+    public static String readString(ByteBuf buffer, int maxLength) {
         int result = buffer.bytesBefore(maxLength, (byte) 0);
+        // if the string is not null terminated, just read all the characters
+        result = result == -1 ? maxLength : result;
         String s = buffer.readBytes(result).toString(Charset.forName("UTF-8"));
         buffer.skipBytes(maxLength - result);
         return s;

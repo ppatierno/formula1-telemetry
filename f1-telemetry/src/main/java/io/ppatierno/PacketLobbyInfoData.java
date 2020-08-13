@@ -65,7 +65,7 @@ public class PacketLobbyInfoData extends Packet {
             lid.setAiControlled(buffer.readUnsignedByte());
             lid.setTeamId(buffer.readUnsignedByte());
             lid.setNationality(buffer.readUnsignedByte());
-            lid.setName(PacketUtils.readNullTerminatedString(buffer, LobbyInfoData.NAME_LENGTH));
+            lid.setName(PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH));
             lid.setReadyStatus(buffer.readUnsignedByte());
             this.lobbyInfoData.add(lid);
         }

@@ -67,7 +67,7 @@ public class PacketParticipantsData extends Packet {
             pd.setTeamId(buffer.readUnsignedByte());
             pd.setRaceNumber(buffer.readUnsignedByte());
             pd.setNationality(buffer.readUnsignedByte());
-            pd.setName(PacketUtils.readNullTerminatedString(buffer, ParticipantData.NAME_LENGTH));
+            pd.setName(PacketUtils.readString(buffer, ParticipantData.NAME_LENGTH));
             pd.setYourTelemetry(buffer.readUnsignedByte());
             this.participants.add(pd);
         }

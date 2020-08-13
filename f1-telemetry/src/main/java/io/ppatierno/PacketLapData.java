@@ -16,7 +16,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketLapData extends Packet {
     
-    private List<LapData> lapData = new ArrayList<>();
+    private List<LapData> lapData = new ArrayList<>(PacketConstants.CARS);
 
     /**
      * @return Lap data for all cars on track
@@ -44,7 +44,37 @@ public class PacketLapData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        // TODO: filling packet specific fields
+        for (int i = 0; i < PacketConstants.CARS; i++) {
+            LapData ld = new LapData();
+            ld.setLastLapTime(buffer.readFloatLE());
+            ld.setCurrentLapTime(buffer.readFloatLE());
+            ld.setSector1TimeInMS(buffer.readUnsignedShortLE());
+            ld.setSector2TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestLapTime(buffer.readFloatLE());
+            ld.setBestLapNum(buffer.readUnsignedByte());
+            ld.setBestLapSector1TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestLapSector2TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestLapSector3TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestOverallSector1TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestOverallSector1LapNum(buffer.readUnsignedByte());
+            ld.setBestOverallSector2TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestOverallSector2LapNum(buffer.readUnsignedByte());
+            ld.setBestOverallSector3TimeInMS(buffer.readUnsignedShortLE());
+            ld.setBestOverallSector3LapNum(buffer.readUnsignedByte());
+            ld.setLapDistance(buffer.readFloatLE());
+            ld.setTotalDistance(buffer.readFloatLE());
+            ld.setSafetyCarDelta(buffer.readFloatLE());
+            ld.setCarPosition(buffer.readUnsignedByte());
+            ld.setCurrentLapNum(buffer.readUnsignedByte());
+            ld.setPitStatus(buffer.readUnsignedByte());
+            ld.setSector(buffer.readUnsignedByte());
+            ld.setCurrentLapInvalid(buffer.readUnsignedByte());
+            ld.setPenalties(buffer.readUnsignedByte());
+            ld.setGridPosition(buffer.readUnsignedByte());
+            ld.setDriverStatus(buffer.readUnsignedByte());
+            ld.setResultStatus(buffer.readUnsignedByte());
+            this.lapData.add(ld);
+        }
         return this;
     }
 
