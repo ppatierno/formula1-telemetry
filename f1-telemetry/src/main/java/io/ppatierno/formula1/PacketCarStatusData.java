@@ -50,7 +50,7 @@ public class PacketCarStatusData extends Packet {
             CarStatusData csd = new CarStatusData();
             csd.setTractionControl(buffer.readUnsignedByte());
             csd.setAntiLockBrakes(buffer.readUnsignedByte());
-            csd.setFuelMix(buffer.readUnsignedByte());
+            csd.setFuelMix(FuelMix.valueOf(buffer.readUnsignedByte()));
             csd.setFrontBrakeBias(buffer.readUnsignedByte());
             csd.setPitLimiterStatus(buffer.readUnsignedByte());
             csd.setFuelInTank(buffer.readFloatLE());
@@ -64,8 +64,8 @@ public class PacketCarStatusData extends Packet {
             for (int j = 0; j < PacketConstants.TYRES; j++) {
                 csd.getTyresWear()[j] = buffer.readUnsignedByte();
             }
-            csd.setActualTyreCompound(buffer.readUnsignedByte());
-            csd.setVisualTyreCompound(buffer.readUnsignedByte());
+            csd.setActualTyreCompound(TyreCompound.valueOf(buffer.readUnsignedByte()));
+            csd.setVisualTyreCompound(TyreCompound.valueOf(buffer.readUnsignedByte()));
             csd.setTyresAgeLaps(buffer.readUnsignedByte());
             for (int j = 0; j < PacketConstants.TYRES; j++) {
                 csd.getTyresDamage()[j] = buffer.readUnsignedByte();
@@ -76,9 +76,9 @@ public class PacketCarStatusData extends Packet {
             csd.setDrsFault(buffer.readUnsignedByte());
             csd.setEngineDamage(buffer.readUnsignedByte());
             csd.setGearBoxDamage(buffer.readUnsignedByte());
-            csd.setVehicleFiaFlags(buffer.readByte());
+            csd.setVehicleFiaFlags(VehicleFiaFlag.valueOf(buffer.readByte()));
             csd.setErsStoreEnergy(buffer.readFloatLE());
-            csd.setErsDeployMode(buffer.readUnsignedByte());
+            csd.setErsDeployMode(ErsDeployMode.valueOf(buffer.readUnsignedByte()));
             csd.setErsHarvestedThisLapMGUK(buffer.readFloatLE());
             csd.setErsHarvestedThisLapMGUH(buffer.readFloatLE());
             csd.setErsDeployedThisLap(buffer.readFloatLE());
@@ -91,7 +91,7 @@ public class PacketCarStatusData extends Packet {
 
         private short tractionControl;
         private short antiLockBrakes;
-        private short fuelMix;
+        private FuelMix fuelMix;
         private short frontBrakeBias;
         private short pitLimiterStatus;
         private float fuelInTank;
@@ -103,8 +103,8 @@ public class PacketCarStatusData extends Packet {
         private short drsAllowed;
         private int drsActivationDistance;
         private short tyresWear[] = new short[PacketConstants.TYRES];
-        private short actualTyreCompound;
-        private short visualTyreCompound;
+        private TyreCompound actualTyreCompound;
+        private TyreCompound visualTyreCompound;
         private short tyresAgeLaps;
         private short tyresDamage[] = new short[PacketConstants.TYRES];
         private short frontLeftWingDamage;
@@ -113,9 +113,9 @@ public class PacketCarStatusData extends Packet {
         private short drsFault;
         private short engineDamage;
         private short gearBoxDamage;
-        private short vehicleFiaFlags;
+        private VehicleFiaFlag vehicleFiaFlags;
         private float ersStoreEnergy;
-        private short ersDeployMode;
+        private ErsDeployMode ersDeployMode;
         private float ersHarvestedThisLapMGUK;
         private float ersHarvestedThisLapMGUH;
         private float ersDeployedThisLap;
@@ -148,11 +148,11 @@ public class PacketCarStatusData extends Packet {
          * @return Fuel mix
          * 0 = lean, 1 = standard, 2 = rich, 3 = max
          */
-        public short getFuelMix() {
+        public FuelMix getFuelMix() {
             return fuelMix;
         }
 
-        public void setFuelMix(short fuelMix) {
+        public void setFuelMix(FuelMix fuelMix) {
             this.fuelMix = fuelMix;
         }
 
@@ -286,11 +286,11 @@ public class PacketCarStatusData extends Packet {
          * F1 Classic - 9 = dry, 10 = wet
          * F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard, 15 = wet
          */
-        public short getActualTyreCompound() {
+        public TyreCompound getActualTyreCompound() {
             return actualTyreCompound;
         }
 
-        public void setActualTyreCompound(short actualTyreCompound) {
+        public void setActualTyreCompound(TyreCompound actualTyreCompound) {
             this.actualTyreCompound = actualTyreCompound;
         }
 
@@ -300,11 +300,11 @@ public class PacketCarStatusData extends Packet {
          * F1 Classic – same as above
          * F2 – same as above
          */
-        public short getVisualTyreCompound() {
+        public TyreCompound getVisualTyreCompound() {
             return visualTyreCompound;
         }
 
-        public void setVisualTyreCompound(short visualTyreCompound) {
+        public void setVisualTyreCompound(TyreCompound visualTyreCompound) {
             this.visualTyreCompound = visualTyreCompound;
         }
 
@@ -402,11 +402,11 @@ public class PacketCarStatusData extends Packet {
          * -1 = invalid/unknown, 0 = none, 1 = green
          * 2 = blue, 3 = yellow, 4 = red
          */
-        public short getVehicleFiaFlags() {
+        public VehicleFiaFlag getVehicleFiaFlags() {
             return vehicleFiaFlags;
         }
 
-        public void setVehicleFiaFlags(short vehicleFiaFlags) {
+        public void setVehicleFiaFlags(VehicleFiaFlag vehicleFiaFlags) {
             this.vehicleFiaFlags = vehicleFiaFlags;
         }
 
@@ -425,11 +425,11 @@ public class PacketCarStatusData extends Packet {
          * @return ERS deploy mode
          * 0 = none, 1 = medium, 2 = overtake, 3 = hotlap
          */
-        public short getErsDeployMode() {
+        public ErsDeployMode getErsDeployMode() {
             return ersDeployMode;
         }
 
-        public void setErsDeployMode(short ersDeployMode) {
+        public void setErsDeployMode(ErsDeployMode ersDeployMode) {
             this.ersDeployMode = ersDeployMode;
         }
 
