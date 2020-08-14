@@ -129,7 +129,7 @@ public class PacketCarTelemetryData extends Packet {
                 ctd.getTyresPressure()[j] = buffer.readFloatLE();
             }
             for (int j = 0; j < PacketConstants.TYRES; j++) {
-                ctd.getSurfaceType()[j] = buffer.readUnsignedByte();
+                ctd.getSurfaceType()[j] = SurfaceType.valueOf(buffer.readUnsignedByte());
             }
             this.carTelemetryData.add(ctd);
         }
@@ -156,7 +156,7 @@ public class PacketCarTelemetryData extends Packet {
         private short tyresInnerTemperature[] = new short[PacketConstants.TYRES];
         private int engineTemperature;
         private float tyresPressure[] = new float[PacketConstants.TYRES];
-        private short surfaceType[] = new short[PacketConstants.TYRES];
+        private SurfaceType surfaceType[] = new SurfaceType[PacketConstants.TYRES];
 
         /**
          * @return Speed of car in kilometres per hour
@@ -316,11 +316,11 @@ public class PacketCarTelemetryData extends Packet {
         /**
          * @return Driving surface
          */
-        public short[] getSurfaceType() {
+        public SurfaceType[] getSurfaceType() {
             return surfaceType;
         }
 
-        public void setSurfaceType(short[] surfaceType) {
+        public void setSurfaceType(SurfaceType[] surfaceType) {
             this.surfaceType = surfaceType;
         }
 
