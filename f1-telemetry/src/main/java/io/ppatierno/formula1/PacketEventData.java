@@ -14,18 +14,18 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketEventData extends Packet {
     
-    private String eventStringCode;
+    private EventCode eventCode;
     private EventDataDetails eventDataDetails = new EventDataDetails();
 
     /**
-     * @return Event string code
+     * @return Event code
      */
-    public String getEventStringCode() {
-        return eventStringCode;
+    public EventCode getEventCode() {
+        return eventCode;
     }
 
-    public void setEventStringCode(String eventStringCode) {
-        this.eventStringCode = eventStringCode;
+    public void setEventCode(EventCode eventCode) {
+        this.eventCode = eventCode;
     }
 
     /**
@@ -43,7 +43,7 @@ public class PacketEventData extends Packet {
     public String toString() {
         StringBuilder sb = new StringBuilder("EventData[");
         sb.append(super.toString());
-        sb.append(",eventStringCode=" +  this.eventStringCode);
+        sb.append(",eventStringCode=" +  this.eventCode);
         sb.append(",eventDataDetails=" + this.eventDataDetails);
         sb.append("]");
         return sb.toString();
@@ -52,43 +52,43 @@ public class PacketEventData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        this.eventStringCode = PacketUtils.readString(buffer, 4);
-        switch (this.eventStringCode) {
-            case "SSTA":
+        this.eventCode = EventCode.valueFrom(PacketUtils.readString(buffer, 4));
+        switch (this.eventCode) {
+            case SESSION_STARTED:
                 break;
-            case "SEND":
+            case SESSION_ENDED:
                 break;
-            case "FTLP":
+            case FASTEST_LAP:
                 FastestLap fl = new FastestLap();
                 fl.setVehicleIdx(buffer.readUnsignedByte());
                 fl.setLapTime(buffer.readFloatLE());
                 this.eventDataDetails.setFastestLap(fl);
                 break;
-            case "RTMT":
+            case RETIREMENT:
                 Retirement r = new Retirement();
                 r.setVehicleIdx(buffer.readUnsignedByte());
                 this.eventDataDetails.setRetirement(r);
                 break;
-            case "DRSE":
+            case DRS_ENABLED:
                 break;
-            case "DRSD":
+            case DRS_DISABLED:
                 break;
-            case "TMPT":
+            case TEAM_MATE_IN_PITS:
                 TeamMateInPits tmip = new TeamMateInPits();
                 tmip.setVehicleIdx(buffer.readUnsignedByte());
                 this.eventDataDetails.setTeamMateInPits(tmip);
                 break;
-            case "CHQF":
+            case CHEQUERED_FLAG:
                 break;
-            case "RCWN":
+            case RACE_WINNER:
                 RaceWinner rw = new RaceWinner();
                 rw.setVehicleIdx(buffer.readUnsignedByte());
                 this.eventDataDetails.setRaceWinner(rw);
                 break;
-            case "PENA":
+            case PENALTY_ISSUED:
                 Penalty p = new Penalty();
-                p.setPenaltyType(buffer.readUnsignedByte());
-                p.setInfringementType(buffer.readUnsignedByte());
+                p.setPenaltyType(PenaltyType.valueOf(buffer.readUnsignedByte()));
+                p.setInfringementType(InfringementType.valueOf(buffer.readUnsignedByte()));
                 p.setVehicleIdx(buffer.readUnsignedByte());
                 p.setOtherVehicleIdx(buffer.readUnsignedByte());
                 p.setTime(buffer.readUnsignedByte());
@@ -96,7 +96,7 @@ public class PacketEventData extends Packet {
                 p.setPlacesGained(buffer.readUnsignedByte());
                 this.eventDataDetails.setPenalty(p);
                 break;
-            case "SPTP":
+            case SPEED_TRAP_TRIGGERED:
                 SpeedTrap st = new SpeedTrap();
                 st.setVehicleIdx(buffer.readUnsignedByte());
                 st.setSpeed(buffer.readFloatLE());
@@ -296,8 +296,8 @@ public class PacketEventData extends Packet {
 
     class Penalty {
 
-        private short penaltyType;
-        private short infringementType;
+        private PenaltyType penaltyType;
+        private InfringementType infringementType;
         private short vehicleIdx;
         private short otherVehicleIdx;
         private short time;
@@ -307,22 +307,22 @@ public class PacketEventData extends Packet {
         /**
          * @return Penalty type
          */
-        public short getPenaltyType() {
+        public PenaltyType getPenaltyType() {
             return penaltyType;
         }
 
-        public void setPenaltyType(short penaltyType) {
+        public void setPenaltyType(PenaltyType penaltyType) {
             this.penaltyType = penaltyType;
         }
 
         /**
          * @return Infringement type
          */
-        public short getInfringementType() {
+        public InfringementType getInfringementType() {
             return infringementType;
         }
 
-        public void setInfringementType(short infringementType) {
+        public void setInfringementType(InfringementType infringementType) {
             this.infringementType = infringementType;
         }
 
