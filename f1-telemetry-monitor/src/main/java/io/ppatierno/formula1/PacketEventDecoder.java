@@ -2,12 +2,14 @@
  * Copyright Paolo Patierno.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-package io.ppatierno;
+package io.ppatierno.formula1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
+import io.ppatierno.formula1.Packet;
+import io.ppatierno.formula1.PacketDecoder;
 
 import java.util.List;
 
