@@ -8,8 +8,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import io.ppatierno.formula1.Packet;
-import io.ppatierno.formula1.PacketDecoder;
 
 import java.util.List;
 

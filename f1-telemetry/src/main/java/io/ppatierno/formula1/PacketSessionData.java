@@ -16,14 +16,14 @@ import io.netty.buffer.ByteBuf;
  */
 public class PacketSessionData extends Packet {
 
-    private short weather;
+    private Weather weather;
     private short trackTemperature;
     private short airTemperature;
     private short totalLaps;
     private int trackLength;
-    private short sessionType;
-    private short trackId;
-    private short formula;
+    private SessionType sessionType;
+    private Track trackId;
+    private Formula formula;
     private int sessionTimeLeft;
     private int sessionDuration;
     private short pitSpeedLimit;
@@ -33,7 +33,7 @@ public class PacketSessionData extends Packet {
     private short sliProNativeSupport;
     private short numMarshalZones;
     private List<MarshalZone> marshalZones = new ArrayList<>(PacketConstants.MARSHAL_ZONES);
-    private short safetyCarStatus;
+    private SafetyCarStatus safetyCarStatus;
     private short networkGame;
     private short numWeatherForecastSamples;
     private List<WeatherForecastSample> weatherForecastSamples = new ArrayList<>(PacketConstants.WEATHER_FORECAST_SAMPLES);
@@ -43,11 +43,11 @@ public class PacketSessionData extends Packet {
      * Weather - 0 = clear, 1 = light cloud, 2 = overcast
      * 3 = light rain, 4 = heavy rain, 5 = storm
      */
-    public short getWeather() {
+    public Weather getWeather() {
         return weather;
     }
 
-    public void setWeather(short weather) {
+    public void setWeather(Weather weather) {
         this.weather = weather;
     }
 
@@ -101,11 +101,11 @@ public class PacketSessionData extends Packet {
      * 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
      * 10 = R, 11 = R2, 12 = Time Trial
      */
-    public short getSessionType() {
+    public SessionType getSessionType() {
         return sessionType;
     }
 
-    public void setSessionType(short sessionType) {
+    public void setSessionType(SessionType sessionType) {
         this.sessionType = sessionType;
     }
 
@@ -113,11 +113,11 @@ public class PacketSessionData extends Packet {
      * @return Track ID
      * -1 for unknown, 0-21 for tracks, see appendix
      */
-    public short getTrackId() {
+    public Track getTrackId() {
         return trackId;
     }
 
-    public void setTrackId(short trackId) {
+    public void setTrackId(Track trackId) {
         this.trackId = trackId;
     }
 
@@ -125,11 +125,11 @@ public class PacketSessionData extends Packet {
      * @return Formula
      * Formula, 0 = F1 Modern, 1 = F1 Classic, 2 = F2, 3 = F1 Generic
      */
-    public short getFormula() {
+    public Formula getFormula() {
         return formula;
     }
 
-    public void setFormula(short formula) {
+    public void setFormula(Formula formula) {
         this.formula = formula;
     }
 
@@ -238,11 +238,11 @@ public class PacketSessionData extends Packet {
      * 2 = virtual safety car
      * 0 = offline, 1 = online
      */
-    public short getSafetyCarStatus() {
+    public SafetyCarStatus getSafetyCarStatus() {
         return safetyCarStatus;
     }
 
-    public void setSafetyCarStatus(short safetyCarStatus) {
+    public void setSafetyCarStatus(SafetyCarStatus safetyCarStatus) {
         this.safetyCarStatus = safetyCarStatus;
     }
 
@@ -318,14 +318,14 @@ public class PacketSessionData extends Packet {
     @Override
     public Packet fill(ByteBuf buffer) {
         super.fill(buffer);
-        this.weather = buffer.readUnsignedByte();
+        this.weather = Weather.valueOf(buffer.readUnsignedByte());
         this.trackTemperature = buffer.readByte();
         this.airTemperature = buffer.readByte();
         this.totalLaps = buffer.readUnsignedByte();
         this.trackLength = buffer.readUnsignedShortLE();
-        this.sessionType = buffer.readUnsignedByte();
-        this.trackId = buffer.readByte();
-        this.formula = buffer.readUnsignedByte();
+        this.sessionType = SessionType.valueOf(buffer.readUnsignedByte());
+        this.trackId = Track.valueOf(buffer.readByte());
+        this.formula = Formula.valueOf(buffer.readUnsignedByte());
         this.sessionTimeLeft = buffer.readUnsignedShortLE();
         this.sessionDuration = buffer.readUnsignedShortLE();
         this.pitSpeedLimit = buffer.readUnsignedByte();
@@ -337,17 +337,17 @@ public class PacketSessionData extends Packet {
         for (int i = 0; i < PacketConstants.MARSHAL_ZONES; i++) {
             MarshalZone mz = new MarshalZone();
             mz.setZoneStart(buffer.readFloat());
-            mz.setZoneFlag(buffer.readByte());
+            mz.setZoneFlag(ZoneFlag.valueOf(buffer.readByte()));
             this.marshalZones.add(mz);
         }
-        this.safetyCarStatus = buffer.readUnsignedByte();
+        this.safetyCarStatus = SafetyCarStatus.valueOf(buffer.readUnsignedByte());
         this.networkGame = buffer.readUnsignedByte();
         this.numWeatherForecastSamples = buffer.readUnsignedByte();
         for (int i = 0; i < PacketConstants.WEATHER_FORECAST_SAMPLES; i++) {
             WeatherForecastSample wfs = new WeatherForecastSample();
-            wfs.setSessionType(buffer.readUnsignedByte());
+            wfs.setSessionType(SessionType.valueOf(buffer.readUnsignedByte()));
             wfs.setTimeOffset(buffer.readUnsignedByte());
-            wfs.setWeather(buffer.readUnsignedByte());
+            wfs.setWeather(Weather.valueOf(buffer.readUnsignedByte()));
             wfs.setTrackTemperature(buffer.readByte());
             wfs.setAirTemperature(buffer.readByte());
             this.weatherForecastSamples.add(wfs);
@@ -358,7 +358,7 @@ public class PacketSessionData extends Packet {
     class MarshalZone {
 
         private float zoneStart;
-        public short zoneFlag;
+        public ZoneFlag zoneFlag;
 
         /**
          * @return Zone start
@@ -376,11 +376,11 @@ public class PacketSessionData extends Packet {
          * @return Zone flag
          * -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow, 4 = red
          */
-        public short getZoneFlag() {
+        public ZoneFlag getZoneFlag() {
             return zoneFlag;
         }
 
-        public void setZoneFlag(short zoneFlag) {
+        public void setZoneFlag(ZoneFlag zoneFlag) {
             this.zoneFlag = zoneFlag;
         }
         
@@ -394,9 +394,9 @@ public class PacketSessionData extends Packet {
 
     class WeatherForecastSample {
         
-        private short sessionType;
+        private SessionType sessionType;
         private short timeOffset;
-        private short weather;
+        private Weather weather;
         private short trackTemperature;
         private short airTemperature;
 
@@ -406,11 +406,11 @@ public class PacketSessionData extends Packet {
          * 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2
          * 12 = Time Trial
          */
-        public short getSessionType() {
+        public SessionType getSessionType() {
             return sessionType;
         }
 
-        public void setSessionType(short sessionType) {
+        public void setSessionType(SessionType sessionType) {
             this.sessionType = sessionType;
         }
 
@@ -430,11 +430,11 @@ public class PacketSessionData extends Packet {
          * Weather - 0 = clear, 1 = light cloud, 2 = overcast
          * 3 = light rain, 4 = heavy rain, 5 = storm
          */
-        public short getWeather() {
+        public Weather getWeather() {
             return weather;
         }
 
-        public void setWeather(short weather) {
+        public void setWeather(Weather weather) {
             this.weather = weather;
         }
 
