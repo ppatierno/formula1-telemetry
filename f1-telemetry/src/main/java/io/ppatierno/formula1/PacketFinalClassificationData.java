@@ -69,7 +69,7 @@ public class PacketFinalClassificationData extends Packet {
             fcd.setGridPosition(buffer.readUnsignedByte());
             fcd.setPoints(buffer.readUnsignedByte());
             fcd.setNumPitStops(buffer.readUnsignedByte());
-            fcd.setResultStatus(buffer.readUnsignedByte());
+            fcd.setResultStatus(ResultStatus.valueOf(buffer.readUnsignedByte()));
             fcd.setBestLapTime(buffer.readFloatLE());
             fcd.setTotalRaceTime(buffer.readDoubleLE());
             fcd.setPenaltiesTime(buffer.readUnsignedByte());
@@ -93,7 +93,7 @@ public class PacketFinalClassificationData extends Packet {
         private short gridPosition;
         private short points;
         private short numPitStops;
-        private short resultStatus;
+        private ResultStatus resultStatus;
         private float bestLapTime;
         private double totalRaceTime;
         private short penaltiesTime;
@@ -163,11 +163,11 @@ public class PacketFinalClassificationData extends Packet {
          * 3 = finished, 4 = disqualified, 5 = not classified
          * 6 = retired
          */
-        public short getResultStatus() {
+        public ResultStatus getResultStatus() {
             return resultStatus;
         }
 
-        public void setResultStatus(short resultStatus) {
+        public void setResultStatus(ResultStatus resultStatus) {
             this.resultStatus = resultStatus;
         }
 

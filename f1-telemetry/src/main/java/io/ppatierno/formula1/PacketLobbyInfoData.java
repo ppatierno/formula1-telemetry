@@ -63,8 +63,8 @@ public class PacketLobbyInfoData extends Packet {
         for (int i = 0; i < this.numPlayers; i++) {
             LobbyInfoData lid = new LobbyInfoData();
             lid.setAiControlled(buffer.readUnsignedByte());
-            lid.setTeamId(buffer.readUnsignedByte());
-            lid.setNationality(buffer.readUnsignedByte());
+            lid.setTeamId(Team.valueOf(buffer.readUnsignedByte()));
+            lid.setNationality(Nationality.valueOf(buffer.readUnsignedByte()));
             lid.setName(PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH));
             lid.setReadyStatus(buffer.readUnsignedByte());
             this.lobbyInfoData.add(lid);
@@ -77,8 +77,8 @@ public class PacketLobbyInfoData extends Packet {
         public static final int NAME_LENGTH = 48;
 
         private short aiControlled;
-        private short teamId;
-        private short nationality;
+        private Team teamId;
+        private Nationality nationality;
         private String name;
         private short readyStatus;
 
@@ -96,22 +96,22 @@ public class PacketLobbyInfoData extends Packet {
         /**
          * @return Team id - see appendix (255 if no team currently selected)
          */
-        public short getTeamId() {
+        public Team getTeamId() {
             return teamId;
         }
 
-        public void setTeamId(short teamId) {
+        public void setTeamId(Team teamId) {
             this.teamId = teamId;
         }
 
         /**
          * @return Nationality of the driver
          */
-        public short getNationality() {
+        public Nationality getNationality() {
             return nationality;
         }
 
-        public void setNationality(short nationality) {
+        public void setNationality(Nationality nationality) {
             this.nationality = nationality;
         }
 
