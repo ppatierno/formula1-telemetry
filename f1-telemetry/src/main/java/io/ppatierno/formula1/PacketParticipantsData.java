@@ -63,10 +63,10 @@ public class PacketParticipantsData extends Packet {
         for (int i = 0; i < this.numActiveCars; i++) {
             ParticipantData pd = new ParticipantData();
             pd.setAiControlled(buffer.readUnsignedByte());
-            pd.setDriverId(buffer.readUnsignedByte());
-            pd.setTeamId(buffer.readUnsignedByte());
+            pd.setDriverId(Driver.valueOf(buffer.readUnsignedByte()));
+            pd.setTeamId(Team.valueOf(buffer.readUnsignedByte()));
             pd.setRaceNumber(buffer.readUnsignedByte());
-            pd.setNationality(buffer.readUnsignedByte());
+            pd.setNationality(Nationality.valueOf(buffer.readUnsignedByte()));
             pd.setName(PacketUtils.readString(buffer, ParticipantData.NAME_LENGTH));
             pd.setYourTelemetry(buffer.readUnsignedByte());
             this.participants.add(pd);
@@ -79,10 +79,10 @@ public class PacketParticipantsData extends Packet {
         public static final int NAME_LENGTH = 48;
 
         private short aiControlled;
-        private short driverId;
-        private short teamId;
+        private Driver driverId;
+        private Team teamId;
         private short raceNumber;
-        private short nationality;
+        private Nationality nationality;
         private String name;
         private short yourTelemetry;
 
@@ -100,22 +100,22 @@ public class PacketParticipantsData extends Packet {
         /**
          * @return Driver Id
          */
-        public short getDriverId() {
+        public Driver getDriverId() {
             return driverId;
         }
 
-        public void setDriverId(short driverId) {
+        public void setDriverId(Driver driverId) {
             this.driverId = driverId;
         }
 
         /**
          * @return Team Id
          */
-        public short getTeamId() {
+        public Team getTeamId() {
             return teamId;
         }
 
-        public void setTeamId(short teamId) {
+        public void setTeamId(Team teamId) {
             this.teamId = teamId;
         }
 
@@ -133,11 +133,11 @@ public class PacketParticipantsData extends Packet {
         /**
          * @return Nationality of the driver
          */
-        public short getNationality() {
+        public Nationality getNationality() {
             return nationality;
         }
 
-        public void setNationality(short nationality) {
+        public void setNationality(Nationality nationality) {
             this.nationality = nationality;
         }
 
