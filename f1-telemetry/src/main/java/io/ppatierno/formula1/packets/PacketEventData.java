@@ -9,7 +9,6 @@ import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.EventCode;
 import io.ppatierno.formula1.enums.InfringementType;
 import io.ppatierno.formula1.enums.PenaltyType;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Event Packet

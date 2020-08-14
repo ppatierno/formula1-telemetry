@@ -13,7 +13,6 @@ import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.Driver;
 import io.ppatierno.formula1.enums.Nationality;
 import io.ppatierno.formula1.enums.Team;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Participants Packet

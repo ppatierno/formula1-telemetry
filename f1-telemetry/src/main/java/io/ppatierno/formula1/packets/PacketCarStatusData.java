@@ -10,11 +10,12 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import io.ppatierno.formula1.PacketConstants;
+import io.ppatierno.formula1.enums.DrsAllowed;
 import io.ppatierno.formula1.enums.ErsDeployMode;
 import io.ppatierno.formula1.enums.FuelMix;
+import io.ppatierno.formula1.enums.TractionControl;
 import io.ppatierno.formula1.enums.TyreCompound;
 import io.ppatierno.formula1.enums.VehicleFiaFlag;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Car Status Packet
@@ -54,7 +55,7 @@ public class PacketCarStatusData extends Packet {
         super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarStatusData csd = new CarStatusData();
-            csd.setTractionControl(buffer.readUnsignedByte());
+            csd.setTractionControl(TractionControl.valueOf(buffer.readUnsignedByte()));
             csd.setAntiLockBrakes(buffer.readUnsignedByte());
             csd.setFuelMix(FuelMix.valueOf(buffer.readUnsignedByte()));
             csd.setFrontBrakeBias(buffer.readUnsignedByte());
@@ -65,7 +66,7 @@ public class PacketCarStatusData extends Packet {
             csd.setMaxRPM(buffer.readUnsignedShortLE());
             csd.setIdleRPM(buffer.readUnsignedShortLE());
             csd.setMaxGears(buffer.readUnsignedByte());
-            csd.setDrsAllowed(buffer.readUnsignedByte());
+            csd.setDrsAllowed(DrsAllowed.valueOf(buffer.readUnsignedByte()));
             csd.setDrsActivationDistance(buffer.readUnsignedShortLE());
             for (int j = 0; j < PacketConstants.TYRES; j++) {
                 csd.getTyresWear()[j] = buffer.readUnsignedByte();
@@ -95,7 +96,7 @@ public class PacketCarStatusData extends Packet {
 
     class CarStatusData {
 
-        private short tractionControl;
+        private TractionControl tractionControl;
         private short antiLockBrakes;
         private FuelMix fuelMix;
         private short frontBrakeBias;
@@ -106,7 +107,7 @@ public class PacketCarStatusData extends Packet {
         private int maxRPM;
         private int idleRPM;
         private short maxGears;
-        private short drsAllowed;
+        private DrsAllowed drsAllowed;
         private int drsActivationDistance;
         private short tyresWear[] = new short[PacketConstants.TYRES];
         private TyreCompound actualTyreCompound;
@@ -130,11 +131,11 @@ public class PacketCarStatusData extends Packet {
          * @return Traction control
          * 0 (off) - 2 (high)
          */
-        public short getTractionControl() {
+        public TractionControl getTractionControl() {
             return tractionControl;
         }
 
-        public void setTractionControl(short tractionControl) {
+        public void setTractionControl(TractionControl tractionControl) {
             this.tractionControl = tractionControl;
         }
 
@@ -255,11 +256,11 @@ public class PacketCarStatusData extends Packet {
          * @return DRS allowed
          * 0 = not allowed, 1 = allowed, -1 = unknown
          */
-        public short getDrsAllowed() {
+        public DrsAllowed getDrsAllowed() {
             return drsAllowed;
         }
 
-        public void setDrsAllowed(short drsAllowed) {
+        public void setDrsAllowed(DrsAllowed drsAllowed) {
             this.drsAllowed = drsAllowed;
         }
 

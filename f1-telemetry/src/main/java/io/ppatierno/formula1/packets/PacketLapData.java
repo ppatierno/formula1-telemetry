@@ -13,7 +13,6 @@ import io.ppatierno.formula1.enums.DriverStatus;
 import io.ppatierno.formula1.enums.PitStatus;
 import io.ppatierno.formula1.enums.ResultStatus;
 import io.ppatierno.formula1.enums.Sector;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Lap Data Packet

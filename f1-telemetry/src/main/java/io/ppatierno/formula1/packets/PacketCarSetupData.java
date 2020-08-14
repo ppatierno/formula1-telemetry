@@ -9,7 +9,6 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import io.ppatierno.formula1.PacketConstants;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Car Setups Packet

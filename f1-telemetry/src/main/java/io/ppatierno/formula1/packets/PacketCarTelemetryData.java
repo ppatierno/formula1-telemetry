@@ -10,8 +10,8 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import io.ppatierno.formula1.PacketConstants;
+import io.ppatierno.formula1.enums.MfdPanel;
 import io.ppatierno.formula1.enums.SurfaceType;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Car Telemetry Packet
@@ -24,8 +24,8 @@ public class PacketCarTelemetryData extends Packet {
     
     private List<CarTelemetryData> carTelemetryData = new ArrayList<>(PacketConstants.CARS);
     private long buttonStatus;
-    private short mfdPanelIndex;
-    private short mfdPanelIndexSecondaryPlayer;
+    private MfdPanel mfdPanelIndex;
+    private MfdPanel mfdPanelIndexSecondaryPlayer;
     private short suggestedGear;
 
     /**
@@ -57,22 +57,22 @@ public class PacketCarTelemetryData extends Packet {
      * 2 = Damage, 3 =  Engine, 4 = Temperatures
      * May vary depending on game mode
      */
-    public short getMfdPanelIndex() {
+    public MfdPanel getMfdPanelIndex() {
         return mfdPanelIndex;
     }
 
-    public void setMfdPanelIndex(short mfdPanelIndex) {
+    public void setMfdPanelIndex(MfdPanel mfdPanelIndex) {
         this.mfdPanelIndex = mfdPanelIndex;
     }
 
     /**
      * @return Index of MFD panel open for secondary player
      */
-    public short getMfdPanelIndexSecondaryPlayer() {
+    public MfdPanel getMfdPanelIndexSecondaryPlayer() {
         return mfdPanelIndexSecondaryPlayer;
     }
 
-    public void setMfdPanelIndexSecondaryPlayer(short mfdPanelIndexSecondaryPlayer) {
+    public void setMfdPanelIndexSecondaryPlayer(MfdPanel mfdPanelIndexSecondaryPlayer) {
         this.mfdPanelIndexSecondaryPlayer = mfdPanelIndexSecondaryPlayer;
     }
 
@@ -137,8 +137,8 @@ public class PacketCarTelemetryData extends Packet {
             this.carTelemetryData.add(ctd);
         }
         this.buttonStatus = buffer.readUnsignedIntLE();
-        this.mfdPanelIndex = buffer.readUnsignedByte();
-        this.mfdPanelIndexSecondaryPlayer = buffer.readUnsignedByte();
+        this.mfdPanelIndex = MfdPanel.valueOf(buffer.readUnsignedByte());
+        this.mfdPanelIndexSecondaryPlayer = MfdPanel.valueOf(buffer.readUnsignedByte());
         this.suggestedGear = buffer.readByte();
         return this;
     }

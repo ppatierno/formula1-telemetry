@@ -11,8 +11,8 @@ import io.netty.buffer.ByteBuf;
 import io.ppatierno.formula1.PacketConstants;
 import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.Nationality;
+import io.ppatierno.formula1.enums.ReadyStatus;
 import io.ppatierno.formula1.enums.Team;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Lobby Info Packet
@@ -71,7 +71,7 @@ public class PacketLobbyInfoData extends Packet {
             lid.setTeamId(Team.valueOf(buffer.readUnsignedByte()));
             lid.setNationality(Nationality.valueOf(buffer.readUnsignedByte()));
             lid.setName(PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH));
-            lid.setReadyStatus(buffer.readUnsignedByte());
+            lid.setReadyStatus(ReadyStatus.valueOf(buffer.readUnsignedByte()));
             this.lobbyInfoData.add(lid);
         }
         return this;
@@ -85,7 +85,7 @@ public class PacketLobbyInfoData extends Packet {
         private Team teamId;
         private Nationality nationality;
         private String name;
-        private short readyStatus;
+        private ReadyStatus readyStatus;
 
         /**
          * @return Whether the vehicle is AI (1) or Human (0) controlled
@@ -136,11 +136,11 @@ public class PacketLobbyInfoData extends Packet {
          * @return Ready status
          * 0 = not ready, 1 = ready, 2 = spectating
          */
-        public short getReadyStatus() {
+        public ReadyStatus getReadyStatus() {
             return readyStatus;
         }
 
-        public void setReadyStatus(short readyStatus) {
+        public void setReadyStatus(ReadyStatus readyStatus) {
             this.readyStatus = readyStatus;
         }
 

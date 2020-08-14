@@ -15,7 +15,6 @@ import io.ppatierno.formula1.enums.SessionType;
 import io.ppatierno.formula1.enums.Track;
 import io.ppatierno.formula1.enums.Weather;
 import io.ppatierno.formula1.enums.ZoneFlag;
-import io.ppatierno.formula1.packets.Packet;
 
 /**
  * Session Packet
