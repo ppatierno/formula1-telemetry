@@ -66,13 +66,13 @@ public class PacketLapData extends Packet {
             ld.setSafetyCarDelta(buffer.readFloatLE());
             ld.setCarPosition(buffer.readUnsignedByte());
             ld.setCurrentLapNum(buffer.readUnsignedByte());
-            ld.setPitStatus(buffer.readUnsignedByte());
-            ld.setSector(buffer.readUnsignedByte());
+            ld.setPitStatus(PitStatus.valueOf(buffer.readUnsignedByte()));
+            ld.setSector(Sector.valueOf(buffer.readUnsignedByte()));
             ld.setCurrentLapInvalid(buffer.readUnsignedByte());
             ld.setPenalties(buffer.readUnsignedByte());
             ld.setGridPosition(buffer.readUnsignedByte());
-            ld.setDriverStatus(buffer.readUnsignedByte());
-            ld.setResultStatus(buffer.readUnsignedByte());
+            ld.setDriverStatus(DriverStatus.valueOf(buffer.readUnsignedByte()));
+            ld.setResultStatus(ResultStatus.valueOf(buffer.readUnsignedByte()));
             this.lapData.add(ld);
         }
         return this;
@@ -100,13 +100,13 @@ public class PacketLapData extends Packet {
         private float safetyCarDelta;
         private short carPosition;
         private short currentLapNum;
-        private short pitStatus;
-        private short sector;
+        private PitStatus pitStatus;
+        private Sector sector;
         private short currentLapInvalid;
         private short penalties;
         private short gridPosition;
-        private short driverStatus;
-        private short resultStatus;
+        private DriverStatus driverStatus;
+        private ResultStatus resultStatus;
 
         /**
          * @return Last lap time in seconds
@@ -334,11 +334,11 @@ public class PacketLapData extends Packet {
          * @return Pit status
          * 0 = none, 1 = pitting, 2 = in pit area
          */
-        public short getPitStatus() {
+        public PitStatus getPitStatus() {
             return pitStatus;
         }
 
-        public void setPitStatus(short pitStatus) {
+        public void setPitStatus(PitStatus pitStatus) {
             this.pitStatus = pitStatus;
         }
 
@@ -346,11 +346,11 @@ public class PacketLapData extends Packet {
          * @return Sector
          * 0 = sector1, 1 = sector2, 2 = sector3
          */
-        public short getSector() {
+        public Sector getSector() {
             return sector;
         }
 
-        public void setSector(short sector) {
+        public void setSector(Sector sector) {
             this.sector = sector;
         }
 
@@ -393,11 +393,11 @@ public class PacketLapData extends Packet {
          * 0 = in garage, 1 = flying lap
          * 2 = in lap, 3 = out lap, 4 = on track
          */
-        public short getDriverStatus() {
+        public DriverStatus getDriverStatus() {
             return driverStatus;
         }
 
-        public void setDriverStatus(short driverStatus) {
+        public void setDriverStatus(DriverStatus driverStatus) {
             this.driverStatus = driverStatus;
         }
 
@@ -407,11 +407,11 @@ public class PacketLapData extends Packet {
          * 3 = finished, 4 = disqualified, 5 = not classified
          * 6 = retired
          */
-        public short getResultStatus() {
+        public ResultStatus getResultStatus() {
             return resultStatus;
         }
 
-        public void setResultStatus(short resultStatus) {
+        public void setResultStatus(ResultStatus resultStatus) {
             this.resultStatus = resultStatus;
         }
 
