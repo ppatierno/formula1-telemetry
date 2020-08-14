@@ -5,6 +5,19 @@
 package io.ppatierno.formula1;
 
 import io.netty.buffer.ByteBuf;
+import io.ppatierno.formula1.enums.PacketId;
+import io.ppatierno.formula1.packets.Packet;
+import io.ppatierno.formula1.packets.PacketCarSetupData;
+import io.ppatierno.formula1.packets.PacketCarStatusData;
+import io.ppatierno.formula1.packets.PacketCarTelemetryData;
+import io.ppatierno.formula1.packets.PacketEventData;
+import io.ppatierno.formula1.packets.PacketFinalClassificationData;
+import io.ppatierno.formula1.packets.PacketHeader;
+import io.ppatierno.formula1.packets.PacketLapData;
+import io.ppatierno.formula1.packets.PacketLobbyInfoData;
+import io.ppatierno.formula1.packets.PacketMotionData;
+import io.ppatierno.formula1.packets.PacketParticipantsData;
+import io.ppatierno.formula1.packets.PacketSessionData;
 
 import java.util.function.Function;
 

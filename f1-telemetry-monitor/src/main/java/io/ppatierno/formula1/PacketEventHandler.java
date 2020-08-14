@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.ppatierno.formula1.packets.Packet;
 
 public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
 
