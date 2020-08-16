@@ -74,11 +74,11 @@ public enum InfringementType {
 
     private int value;
     
-    private InfringementType(int value) {
+    InfringementType(int value) {
         this.value = value;
     }
 
     public static InfringementType valueOf(int value) {
-        return (InfringementType) map.get(value);
+        return map.get(value);
     }
 }

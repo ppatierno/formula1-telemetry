@@ -25,11 +25,11 @@ public enum ReadyStatus {
 
     private int value;
     
-    private ReadyStatus(int value) {
+    ReadyStatus(int value) {
         this.value = value;
     }
 
     public static ReadyStatus valueOf(int value) {
-        return (ReadyStatus) map.get(value);
+        return map.get(value);
     }
 }

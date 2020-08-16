@@ -28,11 +28,11 @@ public enum Weather {
 
     private int value;
     
-    private Weather(int value) {
+    Weather(int value) {
         this.value = value;
     }
 
     public static Weather valueOf(int value) {
-        return (Weather) map.get(value);
+        return map.get(value);
     }
 }

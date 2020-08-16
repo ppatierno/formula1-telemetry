@@ -20,6 +20,7 @@ import io.ppatierno.formula1.enums.ZoneFlag;
  * Session Packet
  * 
  * The session packet includes details about the current session in progress.
+ * Frequency: 2 per second
  */
 public class PacketSessionData extends Packet {
 
@@ -289,7 +290,7 @@ public class PacketSessionData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("SessionData[");
+        StringBuilder sb = new StringBuilder("Session[");
         sb.append(super.toString());
         sb.append(",weather=" + this.weather);
         sb.append(",trackTemperature=" + this.trackTemperature);

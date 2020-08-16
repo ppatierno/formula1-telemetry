@@ -40,11 +40,11 @@ public enum PenaltyType {
 
     private int value;
     
-    private PenaltyType(int value) {
+    PenaltyType(int value) {
         this.value = value;
     }
 
     public static PenaltyType valueOf(int value) {
-        return (PenaltyType) map.get(value);
+        return map.get(value);
     }
 }

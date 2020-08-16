@@ -16,6 +16,7 @@ import io.ppatierno.formula1.PacketConstants;
  * This packet details the car setups for each vehicle in the session. Note that
  * in multiplayer games, other player cars will appear as blank, you will only
  * be able to see your car setup and AI cars.
+ * Frequency: 2 per second
  */
 public class PacketCarSetupData extends Packet {
     
@@ -34,7 +35,7 @@ public class PacketCarSetupData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("CarSetupData[");
+        StringBuilder sb = new StringBuilder("CarSetup[");
         sb.append(super.toString());
         sb.append(",carSetupData=");
         for (CarSetupData c: carSetupData) {

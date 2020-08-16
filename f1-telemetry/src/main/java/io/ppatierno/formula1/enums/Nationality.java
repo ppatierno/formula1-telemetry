@@ -110,11 +110,11 @@ public enum Nationality {
 
     private int value;
     
-    private Nationality(int value) {
+    Nationality(int value) {
         this.value = value;
     }
 
     public static Nationality valueOf(int value) {
-        return (Nationality) map.get(value);
+        return map.get(value);
     }
 }

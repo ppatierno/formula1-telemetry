@@ -29,11 +29,11 @@ public enum ResultStatus {
 
     private int value;
     
-    private ResultStatus(int value) {
+    ResultStatus(int value) {
         this.value = value;
     }
 
     public static ResultStatus valueOf(int value) {
-        return (ResultStatus) map.get(value);
+        return map.get(value);
     }
 }

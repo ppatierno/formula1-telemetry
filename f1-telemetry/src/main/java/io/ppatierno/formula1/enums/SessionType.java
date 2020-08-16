@@ -35,11 +35,11 @@ public enum SessionType {
 
     private int value;
     
-    private SessionType(int value) {
+    SessionType(int value) {
         this.value = value;
     }
 
     public static SessionType valueOf(int value) {
-        return (SessionType) map.get(value);
+        return map.get(value);
     }
 }

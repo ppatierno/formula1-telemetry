@@ -17,7 +17,7 @@ public enum Driver {
     KIMI_RAIKKONEN(6),
     LEWIS_HAMILTON(7),
     MAX_VERSTAPPEN(9),
-    NICO_HULKENBURG(10),
+    NICO_HULKENBERG(10),
     KEVIN_MAGNUSSEN(11),
     ROMAIN_GROSJEAN(12),
     SEBASTIAN_VETTEL(13),
@@ -100,11 +100,11 @@ public enum Driver {
 
     private int value;
     
-    private Driver(int value) {
+    Driver(int value) {
         this.value = value;
     }
 
     public static Driver valueOf(int value) {
-        return (Driver) map.get(value);
+        return map.get(value);
     }
 }

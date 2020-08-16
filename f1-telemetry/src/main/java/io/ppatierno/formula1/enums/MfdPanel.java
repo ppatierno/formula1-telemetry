@@ -27,11 +27,11 @@ public enum MfdPanel {
 
     private int value;
     
-    private MfdPanel(int value) {
+    MfdPanel(int value) {
         this.value = value;
     }
 
     public static MfdPanel valueOf(int value) {
-        return (MfdPanel) map.get(value);
+        return map.get(value);
     }
 }

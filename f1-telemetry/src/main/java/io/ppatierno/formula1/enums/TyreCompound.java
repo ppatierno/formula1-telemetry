@@ -36,11 +36,11 @@ public enum TyreCompound {
 
     private int value;
     
-    private TyreCompound(int value) {
+    TyreCompound(int value) {
         this.value = value;
     }
 
     public static TyreCompound valueOf(int value) {
-        return (TyreCompound) map.get(value);
+        return map.get(value);
     }
 }

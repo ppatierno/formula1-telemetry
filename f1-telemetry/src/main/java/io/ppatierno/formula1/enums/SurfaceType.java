@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * Surface type
+ * These types are from physics data and show what type of contact each wheel is experiencing.
  */
 public enum SurfaceType {
     TARMAC(0),
@@ -34,11 +35,11 @@ public enum SurfaceType {
 
     private int value;
     
-    private SurfaceType(int value) {
+    SurfaceType(int value) {
         this.value = value;
     }
 
     public static SurfaceType valueOf(int value) {
-        return (SurfaceType) map.get(value);
+        return map.get(value);
     }
 }

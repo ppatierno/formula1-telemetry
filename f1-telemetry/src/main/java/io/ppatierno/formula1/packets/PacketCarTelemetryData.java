@@ -19,6 +19,7 @@ import io.ppatierno.formula1.enums.SurfaceType;
  * This packet details telemetry for all the cars in the race. It details
  * various values that would be recorded on the car such as speed, throttle
  * application, DRS etc.
+ * Frequency: Rate as specified in menus
  */
 public class PacketCarTelemetryData extends Packet {
     
@@ -90,7 +91,7 @@ public class PacketCarTelemetryData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("CarTelemetryData[");
+        StringBuilder sb = new StringBuilder("CarTelemetry[");
         sb.append(super.toString());
         sb.append(",carTelemetryData=");
         for (CarTelemetryData c : carTelemetryData) {

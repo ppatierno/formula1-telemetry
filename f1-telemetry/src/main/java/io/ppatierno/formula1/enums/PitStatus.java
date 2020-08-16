@@ -25,11 +25,11 @@ public enum PitStatus {
 
     private int value;
     
-    private PitStatus(int value) {
+    PitStatus(int value) {
         this.value = value;
     }
 
     public static PitStatus valueOf(int value) {
-        return (PitStatus) map.get(value);
+        return map.get(value);
     }
 }

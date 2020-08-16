@@ -20,6 +20,7 @@ import io.ppatierno.formula1.enums.Team;
  * This is a list of participants in the race. If the vehicle is controlled by
  * AI, then the name will be the driver name. If this is a multiplayer game, the
  * names will be the Steam Id on PC, or the LAN name if appropriate.
+ * Frequency: Every 5 seconds
  */
 public class PacketParticipantsData extends Packet {
     
@@ -50,7 +51,7 @@ public class PacketParticipantsData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("ParticipantsData[");
+        StringBuilder sb = new StringBuilder("Participants[");
         sb.append(super.toString());
         sb.append(",numActiveCars=" + this.numActiveCars);
         sb.append(",participants=");

@@ -22,11 +22,11 @@ public enum SafetyCarStatus {
 
     private int value;
     
-    private SafetyCarStatus(int value) {
+    SafetyCarStatus(int value) {
         this.value = value;
     }
 
     public static SafetyCarStatus valueOf(int value) {
-        return (SafetyCarStatus) map.get(value);
+        return map.get(value);
     }
 }

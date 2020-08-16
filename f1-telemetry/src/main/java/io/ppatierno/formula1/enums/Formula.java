@@ -26,11 +26,11 @@ public enum Formula {
 
     private int value;
     
-    private Formula(int value) {
+    Formula(int value) {
         this.value = value;
     }
 
     public static Formula valueOf(int value) {
-        return (Formula) map.get(value);
+        return map.get(value);
     }
 }

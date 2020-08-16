@@ -13,8 +13,8 @@ import io.ppatierno.formula1.enums.PenaltyType;
 /**
  * Event Packet
  * 
- * This packet gives details of events that happen during the course of a
- * session.
+ * This packet gives details of events that happen during the course of a session.
+ * Frequency: When the event occurs
  */
 public class PacketEventData extends Packet {
     
@@ -45,7 +45,7 @@ public class PacketEventData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("EventData[");
+        StringBuilder sb = new StringBuilder("Event[");
         sb.append(super.toString());
         sb.append(",eventStringCode=" +  this.eventCode);
         sb.append(",eventDataDetails=" + this.eventDataDetails);
@@ -106,6 +106,8 @@ public class PacketEventData extends Packet {
                 st.setSpeed(buffer.readFloatLE());
                 this.eventDataDetails.setSpeedTrap(st);
                 break;
+            default:
+                throw new IllegalArgumentException("EventCode=" + this.eventCode + " not supported");
         }
         return this;
     }

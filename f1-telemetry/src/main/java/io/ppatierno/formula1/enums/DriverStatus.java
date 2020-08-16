@@ -27,11 +27,11 @@ public enum DriverStatus {
 
     private int value;
     
-    private DriverStatus(int value) {
+    DriverStatus(int value) {
         this.value = value;
     }
 
     public static DriverStatus valueOf(int value) {
-        return (DriverStatus) map.get(value);
+        return map.get(value);
     }
 }

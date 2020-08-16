@@ -22,6 +22,7 @@ import io.ppatierno.formula1.enums.VehicleFiaFlag;
  * 
  * This packet details car statuses for all the cars in the race. It includes
  * values such as the damage readings on the car.
+ * Frequency: Rate as specified in menus
  */
 public class PacketCarStatusData extends Packet {
     
@@ -40,7 +41,7 @@ public class PacketCarStatusData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("CarStatusData[");
+        StringBuilder sb = new StringBuilder("CarStatus[");
         sb.append(super.toString());
         sb.append(",carStatusData=");
         for (CarStatusData c : carStatusData) {

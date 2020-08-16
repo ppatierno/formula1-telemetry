@@ -25,11 +25,11 @@ public enum Sector {
 
     private int value;
     
-    private Sector(int value) {
+    Sector(int value) {
         this.value = value;
     }
 
     public static Sector valueOf(int value) {
-        return (Sector) map.get(value);
+        return map.get(value);
     }
 }

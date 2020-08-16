@@ -8,6 +8,9 @@ import java.nio.charset.Charset;
 
 import io.netty.buffer.ByteBuf;
 
+/**
+ * Utility methods used while decoding packets
+ */
 public class PacketUtils {
     
     /**

@@ -17,6 +17,7 @@ import io.ppatierno.formula1.PacketUtils;
  * 
  * The motion packet gives physics data for all the cars being driven. 
  * There is additional data for the car being driven with the goal of being able to drive a motion platform setup.
+ * Frequency: Rate as specified in menus
  */
 public class PacketMotionData extends Packet {
     
@@ -24,7 +25,7 @@ public class PacketMotionData extends Packet {
     private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
 
     /**
-     * @return Car(s) motion data
+     * @return Cars motion data
      */
     public List<CarMotionData> getCarMotionData() {
         return carMotionData;
@@ -47,7 +48,7 @@ public class PacketMotionData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("MotionData[");
+        StringBuilder sb = new StringBuilder("Motion[");
         sb.append(super.toString());
         sb.append(",carMotionData=");
         for (CarMotionData cmd : carMotionData) {

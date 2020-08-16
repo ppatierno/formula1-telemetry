@@ -25,11 +25,11 @@ public enum TractionControl {
 
     private int value;
     
-    private TractionControl(int value) {
+    TractionControl(int value) {
         this.value = value;
     }
 
     public static TractionControl valueOf(int value) {
-        return (TractionControl) map.get(value);
+        return map.get(value);
     }
 }

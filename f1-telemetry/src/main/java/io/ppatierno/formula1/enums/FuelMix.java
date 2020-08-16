@@ -26,11 +26,11 @@ public enum FuelMix {
 
     private int value;
     
-    private FuelMix(int value) {
+    FuelMix(int value) {
         this.value = value;
     }
 
     public static FuelMix valueOf(int value) {
-        return (FuelMix) map.get(value);
+        return map.get(value);
     }
 }

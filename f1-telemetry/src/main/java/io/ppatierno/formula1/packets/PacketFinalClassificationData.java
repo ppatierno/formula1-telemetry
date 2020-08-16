@@ -19,6 +19,7 @@ import io.ppatierno.formula1.enums.ResultStatus;
  * data will match with the post race results screen. This is especially useful
  * for multiplayer games where it is not always possible to send lap times on
  * the final frame because of network delay.
+ * Frequency: Once at the end of a race
  */
 public class PacketFinalClassificationData extends Packet {
     
@@ -49,7 +50,7 @@ public class PacketFinalClassificationData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("FinalClassificationData[");
+        StringBuilder sb = new StringBuilder("FinalClassification[");
         sb.append(super.toString());
         sb.append("numCars=" + this.numCars);
         sb.append(",finalClassificationData=");

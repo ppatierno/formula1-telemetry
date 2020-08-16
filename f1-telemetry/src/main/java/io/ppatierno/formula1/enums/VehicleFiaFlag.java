@@ -28,11 +28,11 @@ public enum VehicleFiaFlag {
 
     private int value;
     
-    private VehicleFiaFlag(int value) {
+    VehicleFiaFlag(int value) {
         this.value = value;
     }
 
     public static VehicleFiaFlag valueOf(int value) {
-        return (VehicleFiaFlag) map.get(value);
+        return map.get(value);
     }
 }

@@ -20,6 +20,7 @@ import io.ppatierno.formula1.enums.Team;
  * This packet details the players currently in a multiplayer lobby. It details
  * each player’s selected car, any AI involved in the game and also the ready
  * status of each of the participants.
+ * Frequency: Two every second when in the lobby
  */
 public class PacketLobbyInfoData extends Packet {
     
@@ -50,7 +51,7 @@ public class PacketLobbyInfoData extends Packet {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("LobbyInfoData[");
+        StringBuilder sb = new StringBuilder("LobbyInfo[");
         sb.append(super.toString());
         sb.append(",numPlayers=" + this.numPlayers);
         sb.append(",lobbyInfoData=");

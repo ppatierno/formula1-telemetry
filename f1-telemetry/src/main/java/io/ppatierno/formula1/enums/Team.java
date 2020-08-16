@@ -78,11 +78,11 @@ public enum Team {
 
     private int value;
     
-    private Team(int value) {
+    Team(int value) {
         this.value = value;
     }
 
     public static Team valueOf(int value) {
-        return (Team) map.get(value);
+        return map.get(value);
     }
 }

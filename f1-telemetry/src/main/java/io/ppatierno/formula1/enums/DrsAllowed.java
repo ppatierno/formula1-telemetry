@@ -25,11 +25,11 @@ public enum DrsAllowed {
 
     private int value;
     
-    private DrsAllowed(int value) {
+    DrsAllowed(int value) {
         this.value = value;
     }
 
     public static DrsAllowed valueOf(int value) {
-        return (DrsAllowed) map.get(value);
+        return map.get(value);
     }
 }

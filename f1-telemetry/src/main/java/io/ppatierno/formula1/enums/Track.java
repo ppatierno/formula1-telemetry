@@ -49,11 +49,11 @@ public enum Track {
 
     private int value;
     
-    private Track(int value) {
+    Track(int value) {
         this.value = value;
     }
 
     public static Track valueOf(int value) {
-        return (Track) map.get(value);
+        return map.get(value);
     }
 }

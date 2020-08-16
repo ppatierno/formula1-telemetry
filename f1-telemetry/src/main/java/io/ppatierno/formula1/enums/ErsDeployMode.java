@@ -26,11 +26,11 @@ public enum ErsDeployMode {
 
     private int value;
     
-    private ErsDeployMode(int value) {
+    ErsDeployMode(int value) {
         this.value = value;
     }
 
     public static ErsDeployMode valueOf(int value) {
-        return (ErsDeployMode) map.get(value);
+        return map.get(value);
     }
 }
