@@ -7,6 +7,7 @@ package io.ppatierno.formula1.packets;
 import java.math.BigInteger;
 
 import io.netty.buffer.ByteBuf;
+import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.PacketId;
 
 /**
@@ -37,7 +38,7 @@ public abstract class Packet {
         this.header.setGameMinorVersion(buffer.readUnsignedByte());
         this.header.setPacketVersion(buffer.readUnsignedByte());
         this.header.setPacketId(PacketId.valueOf(buffer.readUnsignedByte()));
-        this.header.setSessionUid(BigInteger.valueOf(buffer.readLongLE()));
+        this.header.setSessionUid(PacketUtils.toUnsignedBigInteger(buffer.readLongLE()));
         this.header.setSessionTime(buffer.readFloatLE());
         this.header.setFrameIdentifier(buffer.readIntLE());
         this.header.setPlayerCarIndex(buffer.readUnsignedByte());
