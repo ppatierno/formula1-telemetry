@@ -56,4 +56,8 @@ public enum Track {
     public static Track valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

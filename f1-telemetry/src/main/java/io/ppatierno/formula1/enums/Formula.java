@@ -33,4 +33,8 @@ public enum Formula {
     public static Formula valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

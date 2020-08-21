@@ -42,4 +42,8 @@ public enum SessionType {
     public static SessionType valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

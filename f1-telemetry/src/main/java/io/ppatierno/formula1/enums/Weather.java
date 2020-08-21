@@ -35,4 +35,8 @@ public enum Weather {
     public static Weather valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

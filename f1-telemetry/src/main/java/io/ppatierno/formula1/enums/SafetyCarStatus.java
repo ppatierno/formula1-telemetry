@@ -29,4 +29,8 @@ public enum SafetyCarStatus {
     public static SafetyCarStatus valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

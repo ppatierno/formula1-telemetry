@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.ppatierno.formula1.packets.Packet;
 import io.ppatierno.formula1.packets.PacketMotionData;
+import io.ppatierno.formula1.packets.PacketSessionData;
 
 /**
  * Packet encoder
@@ -43,6 +44,7 @@ public class PacketEncoder {
             case PARTICIPANTS:
                 break;
             case SESSION:
+                bb = Unpooled.buffer(PacketSessionData.SIZE);
                 break;
             default:
                 throw new IllegalArgumentException("PacketId=" + packet.getHeader().getPacketId() + " not supported");

@@ -24,6 +24,8 @@ import io.ppatierno.formula1.enums.ZoneFlag;
  */
 public class PacketSessionData extends Packet {
 
+    public static final int SIZE = 251;
+
     private Weather weather;
     private short trackTemperature;
     private short airTemperature;
@@ -344,29 +346,78 @@ public class PacketSessionData extends Packet {
         this.numMarshalZones = buffer.readUnsignedByte();
         for (int i = 0; i < PacketConstants.MARSHAL_ZONES; i++) {
             MarshalZone mz = new MarshalZone();
-            mz.setZoneStart(buffer.readFloat());
-            mz.setZoneFlag(ZoneFlag.valueOf(buffer.readByte()));
-            this.marshalZones.add(mz);
+            this.marshalZones.add(mz.fill(buffer));
         }
         this.safetyCarStatus = SafetyCarStatus.valueOf(buffer.readUnsignedByte());
         this.networkGame = buffer.readUnsignedByte();
         this.numWeatherForecastSamples = buffer.readUnsignedByte();
         for (int i = 0; i < PacketConstants.WEATHER_FORECAST_SAMPLES; i++) {
             WeatherForecastSample wfs = new WeatherForecastSample();
-            wfs.setSessionType(SessionType.valueOf(buffer.readUnsignedByte()));
-            wfs.setTimeOffset(buffer.readUnsignedByte());
-            wfs.setWeather(Weather.valueOf(buffer.readUnsignedByte()));
-            wfs.setTrackTemperature(buffer.readByte());
-            wfs.setAirTemperature(buffer.readByte());
-            this.weatherForecastSamples.add(wfs);
+            this.weatherForecastSamples.add(wfs.fill(buffer));
         }
         return this;
+    }
+
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+
+        buffer.writeByte(this.weather.getValue());
+        buffer.writeByte(this.trackTemperature);
+        buffer.writeByte(this.airTemperature);
+        buffer.writeByte(this.totalLaps);
+        buffer.writeShortLE(this.trackLength);
+        buffer.writeByte(this.sessionType.getValue());
+        buffer.writeByte(this.trackId.getValue());
+        buffer.writeByte(this.formula.getValue());
+        buffer.writeShortLE(this.sessionTimeLeft);
+        buffer.writeShortLE(this.sessionDuration);
+        buffer.writeByte(this.pitSpeedLimit);
+        buffer.writeByte(this.gamePaused);
+        buffer.writeByte(this.isSpectating);
+        buffer.writeByte(this.spectatorCarIndex);
+        buffer.writeByte(this.sliProNativeSupport);
+        buffer.writeByte(this.numMarshalZones);
+        for (MarshalZone mz : this.marshalZones) {
+            mz.fillBuffer(buffer);
+        }
+        buffer.writeByte(this.safetyCarStatus.getValue());
+        buffer.writeByte(this.networkGame);
+        buffer.writeByte(this.numWeatherForecastSamples);
+        for (WeatherForecastSample wfs : this.weatherForecastSamples) {
+            wfs.fillBuffer(buffer);
+        }
+        return buffer;
     }
 
     class MarshalZone {
 
         private float zoneStart;
         public ZoneFlag zoneFlag;
+
+        /**
+         * Fill the current MarshalZone with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled MarshalZone instance
+         */
+        public MarshalZone fill(ByteBuf buffer) {
+            this.zoneStart = buffer.readFloatLE();
+            this.zoneFlag = ZoneFlag.valueOf(buffer.readByte());
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current MarshalZone instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeFloatLE(this.zoneStart);
+            buffer.writeByte(this.zoneFlag.getValue());
+            return buffer;
+        }
 
         /**
          * @return Zone start
@@ -407,6 +458,36 @@ public class PacketSessionData extends Packet {
         private Weather weather;
         private short trackTemperature;
         private short airTemperature;
+
+        /**
+         * Fill the current WeatherForecastSample with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled WeatherForecastSample instance
+         */
+        public WeatherForecastSample fill(ByteBuf buffer) {
+            this.sessionType = SessionType.valueOf(buffer.readUnsignedByte());
+            this.timeOffset = buffer.readUnsignedByte();
+            this.weather = Weather.valueOf(buffer.readUnsignedByte());
+            this.trackTemperature = buffer.readByte();
+            this.airTemperature = buffer.readByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current WeatherForecastSample instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.sessionType.getValue());
+            buffer.writeByte(this.timeOffset);
+            buffer.writeByte(this.weather.getValue());
+            buffer.writeByte(this.trackTemperature);
+            buffer.writeByte(this.airTemperature);
+            return buffer;
+        }
 
         /**
          * @return Session type
