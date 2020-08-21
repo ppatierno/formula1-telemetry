@@ -23,6 +23,8 @@ import io.ppatierno.formula1.enums.Team;
  * Frequency: Two every second when in the lobby
  */
 public class PacketLobbyInfoData extends Packet {
+
+    public static final int SIZE = 1169;
     
     private short numPlayers;
     private List<LobbyInfoData> lobbyInfoData = new ArrayList<>(PacketConstants.LOBBY_PLAYERS);
