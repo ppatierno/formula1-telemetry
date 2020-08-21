@@ -32,4 +32,8 @@ public enum ReadyStatus {
     public static ReadyStatus valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

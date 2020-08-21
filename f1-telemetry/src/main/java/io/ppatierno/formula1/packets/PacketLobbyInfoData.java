@@ -68,17 +68,22 @@ public class PacketLobbyInfoData extends Packet {
         this.numPlayers = buffer.readUnsignedByte();
         for (int i = 0; i < this.numPlayers; i++) {
             LobbyInfoData lid = new LobbyInfoData();
-            lid.setAiControlled(buffer.readUnsignedByte());
-            lid.setTeamId(Team.valueOf(buffer.readUnsignedByte()));
-            lid.setNationality(Nationality.valueOf(buffer.readUnsignedByte()));
-            lid.setName(PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH));
-            lid.setReadyStatus(ReadyStatus.valueOf(buffer.readUnsignedByte()));
-            this.lobbyInfoData.add(lid);
+            this.lobbyInfoData.add(lid.fill(buffer));
         }
         return this;
     }
 
-    class LobbyInfoData {
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        buffer.writeByte(this.numPlayers);
+        for (LobbyInfoData lid : this.lobbyInfoData) {
+            lid.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
+    public class LobbyInfoData {
 
         public static final int NAME_LENGTH = 48;
 
@@ -87,6 +92,36 @@ public class PacketLobbyInfoData extends Packet {
         private Nationality nationality;
         private String name;
         private ReadyStatus readyStatus;
+
+        /**
+         * Fill the current LobbyInfoData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled LobbyInfoData instance
+         */
+        public LobbyInfoData fill(ByteBuf buffer) {
+            this.aiControlled = buffer.readUnsignedByte();
+            this.teamId = Team.valueOf(buffer.readUnsignedByte());
+            this.nationality = Nationality.valueOf(buffer.readUnsignedByte());
+            this.name = PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH);
+            this.readyStatus = ReadyStatus.valueOf(buffer.readUnsignedByte());
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current LobbyInfoData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.aiControlled);
+            buffer.writeByte(this.teamId.getValue());
+            buffer.writeByte(this.nationality.getValue());
+            PacketUtils.writeString(this.name, buffer, LobbyInfoData.NAME_LENGTH);
+            buffer.writeByte(this.readyStatus.getValue());
+            return buffer;
+        }
 
         /**
          * @return Whether the vehicle is AI (1) or Human (0) controlled

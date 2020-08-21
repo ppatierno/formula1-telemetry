@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import io.netty.buffer.ByteBuf;
 
@@ -29,6 +30,19 @@ public class PacketUtils {
         String s = buffer.readBytes(result).toString(Charset.forName("UTF-8"));
         buffer.skipBytes(maxLength - result);
         return s;
+    }
+
+    /**
+     * Write a String instance into the buffer padding with null
+     * if it is long less than the specified max length
+     * 
+     * @param s String instance to write
+     * @param buffer destination buffer
+     * @param maxLength max length of the String instance
+     */
+    public static void writeString(String s, ByteBuf buffer, int maxLength) {
+        byte[] sBytes = Arrays.copyOf(s.getBytes(), maxLength);
+        buffer.writeBytes(sBytes);
     }
 
     /**

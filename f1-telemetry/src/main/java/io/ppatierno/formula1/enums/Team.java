@@ -85,4 +85,8 @@ public enum Team {
     public static Team valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

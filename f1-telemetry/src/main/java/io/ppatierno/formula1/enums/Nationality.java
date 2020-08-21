@@ -117,4 +117,8 @@ public enum Nationality {
     public static Nationality valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }
