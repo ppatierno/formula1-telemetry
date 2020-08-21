@@ -40,10 +40,30 @@ public abstract class Packet {
         this.header.setPacketId(PacketId.valueOf(buffer.readUnsignedByte()));
         this.header.setSessionUid(PacketUtils.toUnsignedBigInteger(buffer.readLongLE()));
         this.header.setSessionTime(buffer.readFloatLE());
-        this.header.setFrameIdentifier(buffer.readIntLE());
+        this.header.setFrameIdentifier(buffer.readUnsignedIntLE());
         this.header.setPlayerCarIndex(buffer.readUnsignedByte());
         this.header.setSecondaryPlayerCarIndex(buffer.readUnsignedByte());
         return this;
+    }
+
+    /**
+     * Fill the provided buffer with the raw bytes representation of the current Packet instance
+     * 
+     * @param buffer buffer to fill with the packet raw bytes
+     * @return filled buffer
+     */
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        buffer.writeShortLE(this.header.getPacketFormat());
+        buffer.writeByte(this.header.getGameMajorVersion());
+        buffer.writeByte(this.header.getGameMinorVersion());
+        buffer.writeByte(this.header.getPacketVersion());
+        buffer.writeByte(this.header.getPacketId().getValue());
+        buffer.writeLongLE(this.header.getSessionUid().longValue());
+        buffer.writeFloatLE(this.header.getSessionTime());
+        buffer.writeIntLE((int)this.header.getFrameIdentifier());
+        buffer.writeByte(this.header.getPlayerCarIndex());
+        buffer.writeByte(this.header.getSecondaryPlayerCarIndex());
+        return buffer;
     }
     
     @Override

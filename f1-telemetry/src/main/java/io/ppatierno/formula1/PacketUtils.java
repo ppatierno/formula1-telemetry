@@ -42,6 +42,16 @@ public class PacketUtils {
     }
 
     /**
+     * Convert a float to a normalized vector represented as 16-bit signed value
+     * 
+     * @param value float value
+     * @return normalized vector
+     */
+    public static short floatToNormalizedVector(float value) {
+        return (short) (value * 32767.0f);
+    }
+
+    /**
      * Return a BigInteger equal to the unsigned value of the
      * argument.
      */

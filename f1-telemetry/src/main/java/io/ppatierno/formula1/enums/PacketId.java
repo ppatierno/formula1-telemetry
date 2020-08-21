@@ -49,4 +49,8 @@ public enum PacketId {
     public static PacketId valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }
