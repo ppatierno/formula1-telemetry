@@ -32,4 +32,8 @@ public enum PitStatus {
     public static PitStatus valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

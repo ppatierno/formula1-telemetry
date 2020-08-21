@@ -21,6 +21,8 @@ import io.ppatierno.formula1.enums.Sector;
  * Frequency: Rate as specified in menus
  */
 public class PacketLapData extends Packet {
+
+    public static final int SIZE = 1190;
     
     private List<LapData> lapData = new ArrayList<>(PacketConstants.CARS);
 
@@ -52,39 +54,21 @@ public class PacketLapData extends Packet {
         super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             LapData ld = new LapData();
-            ld.setLastLapTime(buffer.readFloatLE());
-            ld.setCurrentLapTime(buffer.readFloatLE());
-            ld.setSector1TimeInMS(buffer.readUnsignedShortLE());
-            ld.setSector2TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestLapTime(buffer.readFloatLE());
-            ld.setBestLapNum(buffer.readUnsignedByte());
-            ld.setBestLapSector1TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestLapSector2TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestLapSector3TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestOverallSector1TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestOverallSector1LapNum(buffer.readUnsignedByte());
-            ld.setBestOverallSector2TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestOverallSector2LapNum(buffer.readUnsignedByte());
-            ld.setBestOverallSector3TimeInMS(buffer.readUnsignedShortLE());
-            ld.setBestOverallSector3LapNum(buffer.readUnsignedByte());
-            ld.setLapDistance(buffer.readFloatLE());
-            ld.setTotalDistance(buffer.readFloatLE());
-            ld.setSafetyCarDelta(buffer.readFloatLE());
-            ld.setCarPosition(buffer.readUnsignedByte());
-            ld.setCurrentLapNum(buffer.readUnsignedByte());
-            ld.setPitStatus(PitStatus.valueOf(buffer.readUnsignedByte()));
-            ld.setSector(Sector.valueOf(buffer.readUnsignedByte()));
-            ld.setCurrentLapInvalid(buffer.readUnsignedByte());
-            ld.setPenalties(buffer.readUnsignedByte());
-            ld.setGridPosition(buffer.readUnsignedByte());
-            ld.setDriverStatus(DriverStatus.valueOf(buffer.readUnsignedByte()));
-            ld.setResultStatus(ResultStatus.valueOf(buffer.readUnsignedByte()));
-            this.lapData.add(ld);
+            this.lapData.add(ld.fill(buffer));
         }
         return this;
     }
 
-    class LapData {
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        for (LapData ld : this.lapData) {
+            ld.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
+    public class LapData {
 
         private float lastLapTime;
         private float currentLapTime;
@@ -113,6 +97,80 @@ public class PacketLapData extends Packet {
         private short gridPosition;
         private DriverStatus driverStatus;
         private ResultStatus resultStatus;
+
+        /**
+         * Fill the current LapData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled LapData instance
+         */
+        public LapData fill(ByteBuf buffer) {
+            this.lastLapTime = buffer.readFloatLE();
+            this.currentLapTime = buffer.readFloatLE();
+            this.sector1TimeInMS = buffer.readUnsignedShortLE();
+            this.sector2TimeInMS = buffer.readUnsignedShortLE();
+            this.bestLapTime = buffer.readFloatLE();
+            this.bestLapNum = buffer.readUnsignedByte();
+            this.bestLapSector1TimeInMS = buffer.readUnsignedShortLE();
+            this.bestLapSector2TimeInMS = buffer.readUnsignedShortLE();
+            this.bestLapSector3TimeInMS = buffer.readUnsignedShortLE();
+            this.bestOverallSector1TimeInMS = buffer.readUnsignedShortLE();
+            this.bestOverallSector1LapNum = buffer.readUnsignedByte();
+            this.bestOverallSector2TimeInMS = buffer.readUnsignedShortLE();
+            this.bestOverallSector2LapNum = buffer.readUnsignedByte();
+            this.bestOverallSector3TimeInMS = buffer.readUnsignedShortLE();
+            this.bestOverallSector3LapNum = buffer.readUnsignedByte();
+            this.lapDistance = buffer.readFloatLE();
+            this.totalDistance = buffer.readFloatLE();
+            this.safetyCarDelta = buffer.readFloatLE();
+            this.carPosition = buffer.readUnsignedByte();
+            this.currentLapNum = buffer.readUnsignedByte();
+            this.pitStatus = PitStatus.valueOf(buffer.readUnsignedByte());
+            this.sector = Sector.valueOf(buffer.readUnsignedByte());
+            this.currentLapInvalid = buffer.readUnsignedByte();
+            this.penalties = buffer.readUnsignedByte();
+            this.gridPosition = buffer.readUnsignedByte();
+            this.driverStatus = DriverStatus.valueOf(buffer.readUnsignedByte());
+            this.resultStatus = ResultStatus.valueOf(buffer.readUnsignedByte());
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current LapData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeFloatLE(this.lastLapTime);
+            buffer.writeFloatLE(this.currentLapTime);
+            buffer.writeShortLE(this.sector1TimeInMS);
+            buffer.writeShortLE(this.sector2TimeInMS);
+            buffer.writeFloatLE(this.bestLapTime);
+            buffer.writeByte(this.bestLapNum);
+            buffer.writeShortLE(this.bestLapSector1TimeInMS);
+            buffer.writeShortLE(this.bestLapSector2TimeInMS);
+            buffer.writeShortLE(this.bestLapSector3TimeInMS);
+            buffer.writeShortLE(this.bestOverallSector1TimeInMS);
+            buffer.writeByte(this.bestOverallSector1LapNum);
+            buffer.writeShortLE(this.bestOverallSector2TimeInMS);
+            buffer.writeByte(this.bestOverallSector2LapNum);
+            buffer.writeShortLE(this.bestOverallSector3TimeInMS);
+            buffer.writeByte(this.bestOverallSector3LapNum);
+            buffer.writeFloatLE(this.lapDistance);
+            buffer.writeFloatLE(this.totalDistance);
+            buffer.writeFloatLE(this.safetyCarDelta);
+            buffer.writeByte(this.carPosition);
+            buffer.writeByte(this.currentLapNum);
+            buffer.writeByte(this.pitStatus.getValue());
+            buffer.writeByte(this.sector.getValue());
+            buffer.writeByte(this.currentLapInvalid);
+            buffer.writeByte(this.penalties);
+            buffer.writeByte(this.gridPosition);
+            buffer.writeByte(this.driverStatus.getValue());
+            buffer.writeByte(this.resultStatus.getValue());
+            return buffer;
+        }
 
         /**
          * @return Last lap time in seconds
@@ -427,7 +485,7 @@ public class PacketLapData extends Packet {
                     ",currentLapTime=" + this.currentLapTime +
                     ",sector1TimeInMS=" + this.sector1TimeInMS +
                     ",sector2TimeInMS=" + this.sector2TimeInMS +
-                    ",bestLapTime" + this.bestLapTime +
+                    ",bestLapTime=" + this.bestLapTime +
                     ",bestLapNum=" + this.bestLapNum +
                     ",bestLapSector1TimeInMS=" + this.bestLapSector1TimeInMS +
                     ",bestLapSector2TimeInMS=" + this.bestLapSector2TimeInMS +

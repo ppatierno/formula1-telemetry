@@ -7,6 +7,7 @@ package io.ppatierno.formula1;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.ppatierno.formula1.packets.Packet;
+import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketSessionData;
 
@@ -35,6 +36,7 @@ public class PacketEncoder {
             case FINAL_CLASSIFICATION:
                 break;
             case LAP_DATA:
+                bb = Unpooled.buffer(PacketLapData.SIZE);
                 break;
             case LOBBY_INFO:
                 break;

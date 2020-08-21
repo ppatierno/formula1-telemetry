@@ -34,4 +34,8 @@ public enum DriverStatus {
     public static DriverStatus valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

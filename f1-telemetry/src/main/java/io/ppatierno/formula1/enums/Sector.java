@@ -32,4 +32,8 @@ public enum Sector {
     public static Sector valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

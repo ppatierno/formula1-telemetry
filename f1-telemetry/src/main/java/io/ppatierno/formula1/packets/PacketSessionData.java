@@ -390,7 +390,7 @@ public class PacketSessionData extends Packet {
         return buffer;
     }
 
-    class MarshalZone {
+    public class MarshalZone {
 
         private float zoneStart;
         public ZoneFlag zoneFlag;
@@ -451,7 +451,7 @@ public class PacketSessionData extends Packet {
         }
     }
 
-    class WeatherForecastSample {
+    public class WeatherForecastSample {
         
         private SessionType sessionType;
         private short timeOffset;
