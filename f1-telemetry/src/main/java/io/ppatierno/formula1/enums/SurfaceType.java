@@ -42,4 +42,8 @@ public enum SurfaceType {
     public static SurfaceType valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

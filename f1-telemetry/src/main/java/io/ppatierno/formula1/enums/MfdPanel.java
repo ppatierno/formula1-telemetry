@@ -15,7 +15,8 @@ public enum MfdPanel {
     PITS(1),
     DAMAGE(2),
     ENGINE(3),
-    TEMPERATURES(4);
+    TEMPERATURES(4),
+    MFD_CLOSED(255);
 
     private static Map<Integer, MfdPanel> map = new HashMap<>();
 
@@ -33,5 +34,9 @@ public enum MfdPanel {
 
     public static MfdPanel valueOf(int value) {
         return map.get(value);
+    }
+
+    public int getValue() {
+        return value;
     }
 }
