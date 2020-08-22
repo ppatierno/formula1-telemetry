@@ -7,9 +7,11 @@ package io.ppatierno.formula1;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.ppatierno.formula1.packets.Packet;
+import io.ppatierno.formula1.packets.PacketEventData;
 import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketLobbyInfoData;
 import io.ppatierno.formula1.packets.PacketMotionData;
+import io.ppatierno.formula1.packets.PacketParticipantsData;
 import io.ppatierno.formula1.packets.PacketSessionData;
 
 /**
@@ -33,6 +35,7 @@ public class PacketEncoder {
             case CAR_TELEMETRY:
                 break;
             case EVENT:
+                bb = Unpooled.buffer(PacketEventData.SIZE);
                 break;
             case FINAL_CLASSIFICATION:
                 break;
@@ -46,6 +49,7 @@ public class PacketEncoder {
                 bb = Unpooled.buffer(PacketMotionData.SIZE);
                 break;
             case PARTICIPANTS:
+                bb = Unpooled.buffer(PacketParticipantsData.SIZE);
                 break;
             case SESSION:
                 bb = Unpooled.buffer(PacketSessionData.SIZE);

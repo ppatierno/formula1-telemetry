@@ -51,4 +51,8 @@ public enum EventCode {
     public static EventCode valueFrom(String value) {
         return map.get(value);
     }
+
+    public String getValue() {
+        return value;
+    }
 }

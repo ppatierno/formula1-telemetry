@@ -81,4 +81,8 @@ public enum InfringementType {
     public static InfringementType valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

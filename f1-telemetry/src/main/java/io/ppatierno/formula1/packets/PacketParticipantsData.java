@@ -23,6 +23,8 @@ import io.ppatierno.formula1.enums.Team;
  * Frequency: Every 5 seconds
  */
 public class PacketParticipantsData extends Packet {
+
+    public static final int SIZE = 1213;
     
     private short numActiveCars;
     private List<ParticipantData> participants = new ArrayList<>(PacketConstants.CARS);
@@ -68,19 +70,22 @@ public class PacketParticipantsData extends Packet {
         this.numActiveCars = buffer.readUnsignedByte();
         for (int i = 0; i < this.numActiveCars; i++) {
             ParticipantData pd = new ParticipantData();
-            pd.setAiControlled(buffer.readUnsignedByte());
-            pd.setDriverId(Driver.valueOf(buffer.readUnsignedByte()));
-            pd.setTeamId(Team.valueOf(buffer.readUnsignedByte()));
-            pd.setRaceNumber(buffer.readUnsignedByte());
-            pd.setNationality(Nationality.valueOf(buffer.readUnsignedByte()));
-            pd.setName(PacketUtils.readString(buffer, ParticipantData.NAME_LENGTH));
-            pd.setYourTelemetry(buffer.readUnsignedByte());
-            this.participants.add(pd);
+            this.participants.add(pd.fill(buffer));
         }
         return this;
     }
 
-    class ParticipantData {
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        buffer.writeByte(this.numActiveCars);
+        for (ParticipantData pd : this.participants) {
+            pd.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
+    public class ParticipantData {
 
         public static final int NAME_LENGTH = 48;
 
@@ -91,6 +96,40 @@ public class PacketParticipantsData extends Packet {
         private Nationality nationality;
         private String name;
         private short yourTelemetry;
+
+        /**
+         * Fill the current ParticipantData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled ParticipantData instance
+         */
+        public ParticipantData fill(ByteBuf buffer) {
+            this.aiControlled = buffer.readUnsignedByte();
+            this.driverId = Driver.valueOf(buffer.readUnsignedByte());
+            this.teamId = Team.valueOf(buffer.readUnsignedByte());
+            this.raceNumber = buffer.readUnsignedByte();
+            this.nationality = Nationality.valueOf(buffer.readUnsignedByte());
+            this.name = PacketUtils.readString(buffer, ParticipantData.NAME_LENGTH);
+            this.yourTelemetry = buffer.readUnsignedByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current ParticipantData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.aiControlled);
+            buffer.writeByte(this.driverId.getValue());
+            buffer.writeByte(this.teamId.getValue());
+            buffer.writeByte(this.raceNumber);
+            buffer.writeByte(this.nationality.getValue());
+            PacketUtils.writeString(this.name, buffer, ParticipantData.NAME_LENGTH);
+            buffer.writeByte(this.yourTelemetry);
+            return buffer;
+        }
 
         /**
          * @return Whether the vehicle is AI (1) or Human (0) controlled

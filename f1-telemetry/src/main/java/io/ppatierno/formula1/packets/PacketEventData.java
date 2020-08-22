@@ -17,6 +17,8 @@ import io.ppatierno.formula1.enums.PenaltyType;
  * Frequency: When the event occurs
  */
 public class PacketEventData extends Packet {
+
+    public static final int SIZE = 35;
     
     private EventCode eventCode;
     private EventDataDetails eventDataDetails = new EventDataDetails();
@@ -64,14 +66,11 @@ public class PacketEventData extends Packet {
                 break;
             case FASTEST_LAP:
                 FastestLap fl = new FastestLap();
-                fl.setVehicleIdx(buffer.readUnsignedByte());
-                fl.setLapTime(buffer.readFloatLE());
-                this.eventDataDetails.setFastestLap(fl);
+                this.eventDataDetails.setFastestLap(fl.fill(buffer));
                 break;
             case RETIREMENT:
                 Retirement r = new Retirement();
-                r.setVehicleIdx(buffer.readUnsignedByte());
-                this.eventDataDetails.setRetirement(r);
+                this.eventDataDetails.setRetirement(r.fill(buffer));
                 break;
             case DRS_ENABLED:
                 break;
@@ -79,37 +78,65 @@ public class PacketEventData extends Packet {
                 break;
             case TEAM_MATE_IN_PITS:
                 TeamMateInPits tmip = new TeamMateInPits();
-                tmip.setVehicleIdx(buffer.readUnsignedByte());
-                this.eventDataDetails.setTeamMateInPits(tmip);
+                this.eventDataDetails.setTeamMateInPits(tmip.fill(buffer));
                 break;
             case CHEQUERED_FLAG:
                 break;
             case RACE_WINNER:
                 RaceWinner rw = new RaceWinner();
-                rw.setVehicleIdx(buffer.readUnsignedByte());
-                this.eventDataDetails.setRaceWinner(rw);
+                this.eventDataDetails.setRaceWinner(rw.fill(buffer));
                 break;
             case PENALTY_ISSUED:
                 Penalty p = new Penalty();
-                p.setPenaltyType(PenaltyType.valueOf(buffer.readUnsignedByte()));
-                p.setInfringementType(InfringementType.valueOf(buffer.readUnsignedByte()));
-                p.setVehicleIdx(buffer.readUnsignedByte());
-                p.setOtherVehicleIdx(buffer.readUnsignedByte());
-                p.setTime(buffer.readUnsignedByte());
-                p.setLapNum(buffer.readUnsignedByte());
-                p.setPlacesGained(buffer.readUnsignedByte());
-                this.eventDataDetails.setPenalty(p);
+                this.eventDataDetails.setPenalty(p.fill(buffer));
                 break;
             case SPEED_TRAP_TRIGGERED:
                 SpeedTrap st = new SpeedTrap();
-                st.setVehicleIdx(buffer.readUnsignedByte());
-                st.setSpeed(buffer.readFloatLE());
-                this.eventDataDetails.setSpeedTrap(st);
+                this.eventDataDetails.setSpeedTrap(st.fill(buffer));
                 break;
             default:
                 throw new IllegalArgumentException("EventCode=" + this.eventCode + " not supported");
         }
         return this;
+    }
+
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        PacketUtils.writeString(this.eventCode.getValue(), buffer, 4);
+        switch (this.eventCode) {
+            case SESSION_STARTED:
+                break;
+            case SESSION_ENDED:
+                break;
+            case FASTEST_LAP:
+                this.eventDataDetails.getFastestLap().fillBuffer(buffer);
+                break;
+            case RETIREMENT:
+                this.eventDataDetails.getRetirement().fillBuffer(buffer);
+                break;
+            case DRS_ENABLED:
+                break;
+            case DRS_DISABLED:
+                break;
+            case TEAM_MATE_IN_PITS:
+                this.eventDataDetails.getTeamMateInPits().fillBuffer(buffer);
+                break;
+            case CHEQUERED_FLAG:
+                break;
+            case RACE_WINNER:
+                this.eventDataDetails.getRaceWinner().fillBuffer(buffer);
+                break;
+            case PENALTY_ISSUED:
+                this.eventDataDetails.getPenalty().fillBuffer(buffer);
+                break;
+            case SPEED_TRAP_TRIGGERED:
+                this.eventDataDetails.getSpeedTrap().fillBuffer(buffer);
+                break;
+            default:
+                throw new IllegalArgumentException("EventCode=" + this.eventCode + " not supported");
+        }
+        return buffer;
     }
 
     class EventDataDetails {
@@ -199,10 +226,34 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class FastestLap {
+    public class FastestLap {
 
         private short vehicleIdx;
         private float lapTime;
+
+        /**
+         * Fill the current FastestLap with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled FastestLap instance
+         */
+        public FastestLap fill(ByteBuf buffer) {
+            this.vehicleIdx = buffer.readUnsignedByte();
+            this.lapTime = buffer.readFloatLE();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current FastestLap instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.vehicleIdx);
+            buffer.writeFloatLE(this.lapTime);
+            return buffer;
+        }
 
         /**
          * @return Vehicle index of car achieving fastest lap
@@ -234,9 +285,31 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class Retirement {
+    public class Retirement {
 
         private short vehicleIdx;
+
+        /**
+         * Fill the current Retirement with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled Retirement instance
+         */
+        public Retirement fill(ByteBuf buffer) {
+            this.vehicleIdx = buffer.readUnsignedByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current Retirement instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.vehicleIdx);
+            return buffer;
+        }
 
         /**
          * @return Vehicle index of car retiring
@@ -256,9 +329,31 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class TeamMateInPits {
+    public class TeamMateInPits {
 
         private short vehicleIdx;
+
+        /**
+         * Fill the current TeamMateInPits with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled TeamMateInPits instance
+         */
+        public TeamMateInPits fill(ByteBuf buffer) {
+            this.vehicleIdx = buffer.readUnsignedByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current TeamMateInPits instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.vehicleIdx);
+            return buffer;
+        }
 
         /**
          * @return Vehicle index of team mate
@@ -278,9 +373,31 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class RaceWinner {
+    public class RaceWinner {
 
         private short vehicleIdx;
+
+        /**
+         * Fill the current RaceWinner with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled RaceWinner instance
+         */
+        public RaceWinner fill(ByteBuf buffer) {
+            this.vehicleIdx = buffer.readUnsignedByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current RaceWinner instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.vehicleIdx);
+            return buffer;
+        }
 
         /**
          * @return Vehicle index of the race winner
@@ -300,7 +417,7 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class Penalty {
+    public class Penalty {
 
         private PenaltyType penaltyType;
         private InfringementType infringementType;
@@ -309,6 +426,40 @@ public class PacketEventData extends Packet {
         private short time;
         private short lapNum;
         private short placesGained;
+
+        /**
+         * Fill the current Penalty with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled Penalty instance
+         */
+        public Penalty fill(ByteBuf buffer) {
+            this.penaltyType = PenaltyType.valueOf(buffer.readUnsignedByte());
+            this.infringementType = InfringementType.valueOf(buffer.readUnsignedByte());
+            this.vehicleIdx = buffer.readUnsignedByte();
+            this.otherVehicleIdx = buffer.readUnsignedByte();
+            this.time = buffer.readUnsignedByte();
+            this.lapNum = buffer.readUnsignedByte();
+            this.placesGained = buffer.readUnsignedByte();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current Penalty instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.penaltyType.getValue());
+            buffer.writeByte(this.infringementType.getValue());
+            buffer.writeByte(this.vehicleIdx);
+            buffer.writeByte(this.otherVehicleIdx);
+            buffer.writeByte(this.time);
+            buffer.writeByte(this.lapNum);
+            buffer.writeByte(this.placesGained);
+            return buffer;
+        }
 
         /**
          * @return Penalty type
@@ -400,10 +551,34 @@ public class PacketEventData extends Packet {
         }
     }
 
-    class SpeedTrap {
+    public class SpeedTrap {
 
         private short vehicleIdx;
         private float speed;
+
+        /**
+         * Fill the current SpeedTrap with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled SpeedTrap instance
+         */
+        public SpeedTrap fill(ByteBuf buffer) {
+            this.vehicleIdx = buffer.readUnsignedByte();
+            this.speed = buffer.readFloatLE();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current SpeedTrap instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.vehicleIdx);
+            buffer.writeFloatLE(this.speed);
+            return buffer;
+        }
 
         /**
          * @return Vehicle index of the vehicle triggering speed trap

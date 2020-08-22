@@ -47,4 +47,8 @@ public enum PenaltyType {
     public static PenaltyType valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }
