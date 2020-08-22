@@ -63,6 +63,15 @@ public class PacketCarStatusData extends Packet {
         return this;
     }
 
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        for (CarStatusData csd : this.carStatusData) {
+            csd.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
     public class CarStatusData {
 
         private TractionControl tractionControl;
