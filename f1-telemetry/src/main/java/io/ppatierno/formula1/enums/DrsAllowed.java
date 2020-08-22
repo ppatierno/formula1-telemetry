@@ -32,4 +32,8 @@ public enum DrsAllowed {
     public static DrsAllowed valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

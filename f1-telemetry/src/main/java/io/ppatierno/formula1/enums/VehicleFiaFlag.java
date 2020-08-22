@@ -35,4 +35,8 @@ public enum VehicleFiaFlag {
     public static VehicleFiaFlag valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

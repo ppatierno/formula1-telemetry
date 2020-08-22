@@ -43,4 +43,8 @@ public enum TyreCompound {
     public static TyreCompound valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

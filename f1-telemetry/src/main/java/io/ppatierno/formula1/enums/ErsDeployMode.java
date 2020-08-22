@@ -33,4 +33,8 @@ public enum ErsDeployMode {
     public static ErsDeployMode valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

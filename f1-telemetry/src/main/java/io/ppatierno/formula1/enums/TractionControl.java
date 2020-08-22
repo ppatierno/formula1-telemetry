@@ -32,4 +32,8 @@ public enum TractionControl {
     public static TractionControl valueOf(int value) {
         return map.get(value);
     }
+
+    public int getValue() {
+        return value;
+    }
 }

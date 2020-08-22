@@ -22,6 +22,8 @@ import io.ppatierno.formula1.enums.ResultStatus;
  * Frequency: Once at the end of a race
  */
 public class PacketFinalClassificationData extends Packet {
+
+    public static final int SIZE = 839;
     
     private short numCars;
     private List<FinalClassificationData> finalClassificationData = new ArrayList<>(PacketConstants.CARS);
@@ -67,29 +69,22 @@ public class PacketFinalClassificationData extends Packet {
         this.numCars = buffer.readUnsignedByte();
         for (int i = 0; i < this.numCars; i++) {
             FinalClassificationData fcd = new FinalClassificationData();
-            fcd.setPosition(buffer.readUnsignedByte());
-            fcd.setNumLaps(buffer.readUnsignedByte());
-            fcd.setGridPosition(buffer.readUnsignedByte());
-            fcd.setPoints(buffer.readUnsignedByte());
-            fcd.setNumPitStops(buffer.readUnsignedByte());
-            fcd.setResultStatus(ResultStatus.valueOf(buffer.readUnsignedByte()));
-            fcd.setBestLapTime(buffer.readFloatLE());
-            fcd.setTotalRaceTime(buffer.readDoubleLE());
-            fcd.setPenaltiesTime(buffer.readUnsignedByte());
-            fcd.setNumPenalties(buffer.readUnsignedByte());
-            fcd.setNumTyreStints(buffer.readUnsignedByte());
-            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
-                fcd.getTyreStintsActual()[j] = buffer.readUnsignedByte();
-            }
-            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
-                fcd.getTyreStintsVisual()[j] = buffer.readUnsignedByte();
-            }
-            this.finalClassificationData.add(fcd);
+            this.finalClassificationData.add(fcd.fill(buffer));
         }
         return this;
     }
 
-    class FinalClassificationData {
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        buffer.writeByte(this.numCars);
+        for (FinalClassificationData fcd : this.finalClassificationData) {
+            fcd.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
+    public class FinalClassificationData {
 
         private short position;
         private short numLaps;
@@ -104,6 +99,60 @@ public class PacketFinalClassificationData extends Packet {
         private short numTyreStints;
         private short tyreStintsActual[] = new short[PacketConstants.TYRE_STINTS];
         private short tyreStintsVisual[] = new short[PacketConstants.TYRE_STINTS];
+
+        /**
+         * Fill the current FinalClassificationData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled FinalClassificationData instance
+         */
+        public FinalClassificationData fill(ByteBuf buffer) {
+            this.position = buffer.readUnsignedByte();
+            this.numLaps = buffer.readUnsignedByte();
+            this.gridPosition = buffer.readUnsignedByte();
+            this.points = buffer.readUnsignedByte();
+            this.numPitStops = buffer.readUnsignedByte();
+            this.resultStatus = ResultStatus.valueOf(buffer.readUnsignedByte());
+            this.bestLapTime = buffer.readFloatLE();
+            this.totalRaceTime = buffer.readDoubleLE();
+            this.penaltiesTime = buffer.readUnsignedByte();
+            this.numPenalties = buffer.readUnsignedByte();
+            this.numTyreStints = buffer.readUnsignedByte();
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                this.tyreStintsActual[j] = buffer.readUnsignedByte();
+            }
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                this.tyreStintsVisual[j] = buffer.readUnsignedByte();
+            }
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current FinalClassificationData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.position);
+            buffer.writeByte(this.numLaps);
+            buffer.writeByte(this.gridPosition);
+            buffer.writeByte(this.points);
+            buffer.writeByte(this.numPitStops);
+            buffer.writeByte(this.resultStatus.getValue());
+            buffer.writeFloatLE(this.bestLapTime);
+            buffer.writeDoubleLE(this.totalRaceTime);
+            buffer.writeByte(this.penaltiesTime);
+            buffer.writeByte(this.numPenalties);
+            buffer.writeByte(this.numTyreStints);
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                buffer.writeByte(this.tyreStintsActual[j]);
+            }
+            for (int j = 0; j < PacketConstants.TYRE_STINTS; j++) {
+                buffer.writeByte(this.tyreStintsVisual[j]);
+            }
+            return buffer;
+        }
 
         /**
          * @return Finishing position

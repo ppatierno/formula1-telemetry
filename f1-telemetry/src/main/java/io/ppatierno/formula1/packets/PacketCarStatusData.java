@@ -25,6 +25,8 @@ import io.ppatierno.formula1.enums.VehicleFiaFlag;
  * Frequency: Rate as specified in menus
  */
 public class PacketCarStatusData extends Packet {
+
+    public static final int SIZE = 1344;
     
     private List<CarStatusData> carStatusData = new ArrayList<>(PacketConstants.CARS);
 
@@ -56,46 +58,12 @@ public class PacketCarStatusData extends Packet {
         super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarStatusData csd = new CarStatusData();
-            csd.setTractionControl(TractionControl.valueOf(buffer.readUnsignedByte()));
-            csd.setAntiLockBrakes(buffer.readUnsignedByte());
-            csd.setFuelMix(FuelMix.valueOf(buffer.readUnsignedByte()));
-            csd.setFrontBrakeBias(buffer.readUnsignedByte());
-            csd.setPitLimiterStatus(buffer.readUnsignedByte());
-            csd.setFuelInTank(buffer.readFloatLE());
-            csd.setFuelCapacity(buffer.readFloatLE());
-            csd.setFuelRemainingLaps(buffer.readFloatLE());
-            csd.setMaxRPM(buffer.readUnsignedShortLE());
-            csd.setIdleRPM(buffer.readUnsignedShortLE());
-            csd.setMaxGears(buffer.readUnsignedByte());
-            csd.setDrsAllowed(DrsAllowed.valueOf(buffer.readUnsignedByte()));
-            csd.setDrsActivationDistance(buffer.readUnsignedShortLE());
-            for (int j = 0; j < PacketConstants.TYRES; j++) {
-                csd.getTyresWear()[j] = buffer.readUnsignedByte();
-            }
-            csd.setActualTyreCompound(TyreCompound.valueOf(buffer.readUnsignedByte()));
-            csd.setVisualTyreCompound(TyreCompound.valueOf(buffer.readUnsignedByte()));
-            csd.setTyresAgeLaps(buffer.readUnsignedByte());
-            for (int j = 0; j < PacketConstants.TYRES; j++) {
-                csd.getTyresDamage()[j] = buffer.readUnsignedByte();
-            }
-            csd.setFrontLeftWingDamage(buffer.readUnsignedByte());
-            csd.setFrontRightWingDamage(buffer.readUnsignedByte());
-            csd.setRearWingDamage(buffer.readUnsignedByte());
-            csd.setDrsFault(buffer.readUnsignedByte());
-            csd.setEngineDamage(buffer.readUnsignedByte());
-            csd.setGearBoxDamage(buffer.readUnsignedByte());
-            csd.setVehicleFiaFlags(VehicleFiaFlag.valueOf(buffer.readByte()));
-            csd.setErsStoreEnergy(buffer.readFloatLE());
-            csd.setErsDeployMode(ErsDeployMode.valueOf(buffer.readUnsignedByte()));
-            csd.setErsHarvestedThisLapMGUK(buffer.readFloatLE());
-            csd.setErsHarvestedThisLapMGUH(buffer.readFloatLE());
-            csd.setErsDeployedThisLap(buffer.readFloatLE());
-            this.carStatusData.add(csd);
+            this.carStatusData.add(csd.fill(buffer));
         }
         return this;
     }
 
-    class CarStatusData {
+    public class CarStatusData {
 
         private TractionControl tractionControl;
         private short antiLockBrakes;
@@ -127,6 +95,94 @@ public class PacketCarStatusData extends Packet {
         private float ersHarvestedThisLapMGUK;
         private float ersHarvestedThisLapMGUH;
         private float ersDeployedThisLap;
+
+        /**
+         * Fill the current CarStatusData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled CarStatusData instance
+         */
+        public CarStatusData fill(ByteBuf buffer) {
+            this.tractionControl = TractionControl.valueOf(buffer.readUnsignedByte());
+            this.antiLockBrakes = buffer.readUnsignedByte();
+            this.fuelMix = FuelMix.valueOf(buffer.readUnsignedByte());
+            this.frontBrakeBias = buffer.readUnsignedByte();
+            this.pitLimiterStatus = buffer.readUnsignedByte();
+            this.fuelInTank = buffer.readFloatLE();
+            this.fuelCapacity = buffer.readFloatLE();
+            this.fuelRemainingLaps = buffer.readFloatLE();
+            this.maxRPM = buffer.readUnsignedShortLE();
+            this.idleRPM = buffer.readUnsignedShortLE();
+            this.maxGears = buffer.readUnsignedByte();
+            this.drsAllowed = DrsAllowed.valueOf(buffer.readUnsignedByte());
+            this.drsActivationDistance = buffer.readUnsignedShortLE();
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                this.tyresWear[j] = buffer.readUnsignedByte();
+            }
+            this.actualTyreCompound = TyreCompound.valueOf(buffer.readUnsignedByte());
+            this.visualTyreCompound = TyreCompound.valueOf(buffer.readUnsignedByte());
+            this.tyresAgeLaps = buffer.readUnsignedByte();
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                this.tyresDamage[j] = buffer.readUnsignedByte();
+            }
+            this.frontLeftWingDamage = buffer.readUnsignedByte();
+            this.frontRightWingDamage = buffer.readUnsignedByte();
+            this.rearWingDamage = buffer.readUnsignedByte();
+            this.drsFault = buffer.readUnsignedByte();
+            this.engineDamage = buffer.readUnsignedByte();
+            this.gearBoxDamage = buffer.readUnsignedByte();
+            this.vehicleFiaFlags = VehicleFiaFlag.valueOf(buffer.readByte());
+            this.ersStoreEnergy = buffer.readFloatLE();
+            this.ersDeployMode = ErsDeployMode.valueOf(buffer.readUnsignedByte());
+            this.ersHarvestedThisLapMGUK = buffer.readFloatLE();
+            this.ersHarvestedThisLapMGUH = buffer.readFloatLE();
+            this.ersDeployedThisLap = buffer.readFloatLE();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current CarStatusData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.tractionControl.getValue());
+            buffer.writeByte(this.antiLockBrakes);
+            buffer.writeByte(this.fuelMix.getValue());
+            buffer.writeByte(this.frontBrakeBias);
+            buffer.writeByte(this.pitLimiterStatus);
+            buffer.writeFloatLE(this.fuelInTank);
+            buffer.writeFloatLE(this.fuelCapacity);
+            buffer.writeFloatLE(this.fuelRemainingLaps);
+            buffer.writeShortLE(this.maxRPM);
+            buffer.writeShortLE(this.idleRPM);
+            buffer.writeByte(this.maxGears);
+            buffer.writeByte(this.drsAllowed.getValue());
+            buffer.writeShortLE(this.drsActivationDistance);
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                buffer.writeByte(this.tyresWear[j]);
+            }
+            buffer.writeByte(this.actualTyreCompound.getValue());
+            buffer.writeByte(this.visualTyreCompound.getValue());
+            buffer.writeByte(this.tyresAgeLaps);
+            for (int j = 0; j < PacketConstants.TYRES; j++) {
+                buffer.writeByte(this.tyresDamage[j]);
+            }
+            buffer.writeByte(this.frontLeftWingDamage);
+            buffer.writeByte(this.frontRightWingDamage);
+            buffer.writeByte(this.rearWingDamage);
+            buffer.writeByte(this.drsFault);
+            buffer.writeByte(this.engineDamage);
+            buffer.writeByte(this.gearBoxDamage);
+            buffer.writeByte(this.vehicleFiaFlags.getValue());
+            buffer.writeFloatLE(this.ersStoreEnergy);
+            buffer.writeByte(this.ersDeployMode.getValue());
+            buffer.writeFloatLE(this.ersHarvestedThisLapMGUK);
+            buffer.writeFloatLE(this.ersHarvestedThisLapMGUH);
+            buffer.writeFloatLE(this.ersDeployedThisLap);
+            return buffer;
+        }
 
         /**
          * @return Traction control
