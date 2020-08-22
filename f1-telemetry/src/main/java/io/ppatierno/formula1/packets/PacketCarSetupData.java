@@ -19,6 +19,8 @@ import io.ppatierno.formula1.PacketConstants;
  * Frequency: 2 per second
  */
 public class PacketCarSetupData extends Packet {
+
+    public static final int SIZE = 1102;
     
     private List<CarSetupData> carSetupData = new ArrayList<>(PacketConstants.CARS);
 
@@ -50,34 +52,21 @@ public class PacketCarSetupData extends Packet {
         super.fill(buffer);
         for (int i = 0; i < PacketConstants.CARS; i++) {
             CarSetupData csd = new CarSetupData();
-            csd.setFrontWing(buffer.readUnsignedByte());
-            csd.setRearWing(buffer.readUnsignedByte());
-            csd.setOnThrottle(buffer.readUnsignedByte());
-            csd.setOffThrottle(buffer.readUnsignedByte());
-            csd.setFrontCamber(buffer.readFloatLE());
-            csd.setRearCamber(buffer.readFloatLE());
-            csd.setFrontToe(buffer.readFloatLE());
-            csd.setRearToe(buffer.readFloatLE());
-            csd.setFrontSuspension(buffer.readUnsignedByte());
-            csd.setRearSuspension(buffer.readUnsignedByte());
-            csd.setFrontAntiRollBar(buffer.readUnsignedByte());
-            csd.setRearAntiRollBar(buffer.readUnsignedByte());
-            csd.setFrontSuspensionHeight(buffer.readUnsignedByte());
-            csd.setRearSuspensionHeight(buffer.readUnsignedByte());
-            csd.setBrakePressure(buffer.readUnsignedByte());
-            csd.setBrakeBias(buffer.readUnsignedByte());
-            csd.setRearLeftTyrePressure(buffer.readFloatLE());
-            csd.setRearRightTyrePressure(buffer.readFloatLE());
-            csd.setFrontLeftTyrePressure(buffer.readFloatLE());
-            csd.setFrontRightTyrePressure(buffer.readFloatLE());
-            csd.setBallast(buffer.readUnsignedByte());
-            csd.setFuelLoad(buffer.readFloatLE());
-            this.carSetupData.add(csd);
+            this.carSetupData.add(csd.fill(buffer));
         }
         return this;
     }
 
-    class CarSetupData {
+    @Override
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        super.fillBuffer(buffer);
+        for (CarSetupData csd : this.carSetupData) {
+            csd.fillBuffer(buffer);
+        }
+        return buffer;
+    }
+
+    public class CarSetupData {
 
         private short frontWing;
         private short rearWing;
@@ -101,6 +90,70 @@ public class PacketCarSetupData extends Packet {
         private float frontRightTyrePressure;
         private short ballast;
         private float fuelLoad;
+
+        /**
+         * Fill the current CarSetupData with the raw bytes representation
+         * 
+         * @param buffer buffer with the raw bytes representation
+         * @return current filled CarSetupData instance
+         */
+        public CarSetupData fill(ByteBuf buffer) {
+            this.frontWing = buffer.readUnsignedByte();
+            this.rearWing = buffer.readUnsignedByte();
+            this.onThrottle = buffer.readUnsignedByte();
+            this.offThrottle = buffer.readUnsignedByte();
+            this.frontCamber = buffer.readFloatLE();
+            this.rearCamber = buffer.readFloatLE();
+            this.frontToe = buffer.readFloatLE();
+            this.rearToe = buffer.readFloatLE();
+            this.frontSuspension = buffer.readUnsignedByte();
+            this.rearSuspension = buffer.readUnsignedByte();
+            this.frontAntiRollBar = buffer.readUnsignedByte();
+            this.rearAntiRollBar = buffer.readUnsignedByte();
+            this.frontSuspensionHeight = buffer.readUnsignedByte();
+            this.rearSuspensionHeight = buffer.readUnsignedByte();
+            this.brakePressure = buffer.readUnsignedByte();
+            this.brakeBias = buffer.readUnsignedByte();
+            this.rearLeftTyrePressure = buffer.readFloatLE();
+            this.rearRightTyrePressure = buffer.readFloatLE();
+            this.frontLeftTyrePressure = buffer.readFloatLE();
+            this.frontRightTyrePressure = buffer.readFloatLE();
+            this.ballast = buffer.readUnsignedByte();
+            this.fuelLoad = buffer.readFloatLE();
+            return this;
+        }
+
+        /**
+         * Fill the buffer with the raw bytes representation of the current CarSetupData instance
+         * 
+         * @param buffer buffer to fill
+         * @return filled buffer
+         */
+        public ByteBuf fillBuffer(ByteBuf buffer) {
+            buffer.writeByte(this.frontWing);
+            buffer.writeByte(this.rearWing);
+            buffer.writeByte(this.onThrottle);
+            buffer.writeByte(this.offThrottle);
+            buffer.writeFloatLE(this.frontCamber);
+            buffer.writeFloatLE(this.rearCamber);
+            buffer.writeFloatLE(this.frontToe);
+            buffer.writeFloatLE(this.rearToe);
+            buffer.writeByte(this.frontSuspension);
+            buffer.writeByte(this.rearSuspension);
+            buffer.writeByte(this.frontAntiRollBar);
+            buffer.writeByte(this.rearAntiRollBar);
+            buffer.writeByte(this.frontSuspensionHeight);
+            buffer.writeByte(this.rearSuspensionHeight);
+            buffer.writeByte(this.brakePressure);
+            buffer.writeByte(this.brakeBias);
+            buffer.writeFloatLE(this.rearLeftTyrePressure);
+            buffer.writeFloatLE(this.rearRightTyrePressure);
+            buffer.writeFloatLE(this.frontLeftTyrePressure);
+            buffer.writeFloatLE(this.frontRightTyrePressure);
+            buffer.writeByte(this.ballast);
+            buffer.writeFloatLE(this.fuelLoad);
+            return buffer;
+        }
 
         /**
          * @return Front wing aero

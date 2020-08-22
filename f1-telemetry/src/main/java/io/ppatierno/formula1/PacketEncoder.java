@@ -7,6 +7,7 @@ package io.ppatierno.formula1;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.ppatierno.formula1.packets.Packet;
+import io.ppatierno.formula1.packets.PacketCarSetupData;
 import io.ppatierno.formula1.packets.PacketEventData;
 import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketLobbyInfoData;
@@ -29,6 +30,7 @@ public class PacketEncoder {
         ByteBuf bb = null;
         switch (packet.getHeader().getPacketId()) {
             case CAR_SETUPS:
+                bb = Unpooled.buffer(PacketCarSetupData.SIZE);
                 break;
             case CAR_STATUS:
                 break;
