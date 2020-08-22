@@ -11,6 +11,7 @@ import java.util.Map;
  * Tyre compound
  */
 public enum TyreCompound {
+    UNKNOWN(0),
     F1_C5(16),
     F1_C4(17),
     F1_C3(18),
