@@ -4,6 +4,8 @@
  */
 package io.ppatierno.formula1.packets;
 
+import io.netty.buffer.ByteBuf;
+import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.PacketId;
 
 import java.math.BigInteger;
@@ -26,6 +28,46 @@ public class PacketHeader {
     private long frameIdentifier;
     private short playerCarIndex;
     private short secondaryPlayerCarIndex;
+
+    /**
+     * Fill the current PacketHeader with the raw bytes representation
+     * 
+     * @param buffer buffer with the raw bytes representation
+     * @return current filled PacketHeader instance
+     */
+    public PacketHeader fill(ByteBuf buffer) {
+        this.packetFormat = buffer.readUnsignedShortLE();
+        this.gameMajorVersion = buffer.readUnsignedByte();
+        this.gameMinorVersion = buffer.readUnsignedByte();
+        this.packetVersion = buffer.readUnsignedByte();
+        this.packetId = PacketId.valueOf(buffer.readUnsignedByte());
+        this.sessionUid = PacketUtils.toUnsignedBigInteger(buffer.readLongLE());
+        this.sessionTime = buffer.readFloatLE();
+        this.frameIdentifier = buffer.readUnsignedIntLE();
+        this.playerCarIndex = buffer.readUnsignedByte();
+        this.secondaryPlayerCarIndex = buffer.readUnsignedByte();
+        return this;
+    }
+
+    /**
+     * Fill the buffer with the raw bytes representation of the current PacketHeader instance
+     * 
+     * @param buffer buffer to fill
+     * @return filled buffer
+     */
+    public ByteBuf fillBuffer(ByteBuf buffer) {
+        buffer.writeShortLE(this.packetFormat);
+        buffer.writeByte(this.gameMajorVersion);
+        buffer.writeByte(this.gameMinorVersion);
+        buffer.writeByte(this.packetVersion);
+        buffer.writeByte(this.packetId.getValue());
+        buffer.writeLongLE(this.sessionUid.longValue());
+        buffer.writeFloatLE(this.sessionTime);
+        buffer.writeIntLE((int)this.frameIdentifier);
+        buffer.writeByte(this.playerCarIndex);
+        buffer.writeByte(this.secondaryPlayerCarIndex);
+        return buffer;
+    }
 
     /**
      * @return Packet format (i.e. 2020)

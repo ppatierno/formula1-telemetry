@@ -4,8 +4,6 @@
  */
 package io.ppatierno.formula1.packets;
 
-import java.math.BigInteger;
-
 import io.netty.buffer.ByteBuf;
 import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.PacketId;
@@ -33,16 +31,7 @@ public abstract class Packet {
      * @return current instance
      */
     public Packet fill(ByteBuf buffer) {
-        this.header.setPacketFormat(buffer.readUnsignedShortLE());
-        this.header.setGameMajorVersion(buffer.readUnsignedByte());
-        this.header.setGameMinorVersion(buffer.readUnsignedByte());
-        this.header.setPacketVersion(buffer.readUnsignedByte());
-        this.header.setPacketId(PacketId.valueOf(buffer.readUnsignedByte()));
-        this.header.setSessionUid(PacketUtils.toUnsignedBigInteger(buffer.readLongLE()));
-        this.header.setSessionTime(buffer.readFloatLE());
-        this.header.setFrameIdentifier(buffer.readUnsignedIntLE());
-        this.header.setPlayerCarIndex(buffer.readUnsignedByte());
-        this.header.setSecondaryPlayerCarIndex(buffer.readUnsignedByte());
+        this.header.fill(buffer);
         return this;
     }
 
@@ -53,16 +42,7 @@ public abstract class Packet {
      * @return filled buffer
      */
     public ByteBuf fillBuffer(ByteBuf buffer) {
-        buffer.writeShortLE(this.header.getPacketFormat());
-        buffer.writeByte(this.header.getGameMajorVersion());
-        buffer.writeByte(this.header.getGameMinorVersion());
-        buffer.writeByte(this.header.getPacketVersion());
-        buffer.writeByte(this.header.getPacketId().getValue());
-        buffer.writeLongLE(this.header.getSessionUid().longValue());
-        buffer.writeFloatLE(this.header.getSessionTime());
-        buffer.writeIntLE((int)this.header.getFrameIdentifier());
-        buffer.writeByte(this.header.getPlayerCarIndex());
-        buffer.writeByte(this.header.getSecondaryPlayerCarIndex());
+        this.header.fillBuffer(buffer);
         return buffer;
     }
     
