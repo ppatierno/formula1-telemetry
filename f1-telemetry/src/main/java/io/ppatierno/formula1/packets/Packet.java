@@ -5,8 +5,6 @@
 package io.ppatierno.formula1.packets;
 
 import io.netty.buffer.ByteBuf;
-import io.ppatierno.formula1.PacketUtils;
-import io.ppatierno.formula1.enums.PacketId;
 
 /**
  * Base class for all packets
