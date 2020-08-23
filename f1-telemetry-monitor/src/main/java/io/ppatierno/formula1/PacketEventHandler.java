@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
 
     private static final Logger log = LogManager.getLogger(PacketEventHandler.class);
+    private int count = 0;
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
@@ -23,7 +24,8 @@ public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception {
-        log.info("FrameId={}, SessionTime={}, PacketId={}",
+        log.info("Packet nr.{} [FrameId={}, SessionTime={}, PacketId={}]",
+                ++count,
                 msg.getHeader().getFrameIdentifier(),
                 msg.getHeader().getSessionTime(),
                 msg.getHeader().getPacketId());
