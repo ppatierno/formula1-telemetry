@@ -7,8 +7,12 @@ package io.ppatierno.formula1;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.ppatierno.formula1.packets.Packet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
+
+    private static final Logger log = LogManager.getLogger(PacketEventHandler.class);
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
@@ -19,7 +23,10 @@ public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception {
-        System.out.println(msg);
+        log.info("FrameId={}, SessionTime={}, PacketId={}",
+                msg.getHeader().getFrameIdentifier(),
+                msg.getHeader().getSessionTime(),
+                msg.getHeader().getPacketId());
     }
     
 }
