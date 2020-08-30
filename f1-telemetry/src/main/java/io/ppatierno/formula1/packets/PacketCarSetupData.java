@@ -20,7 +20,9 @@ import io.ppatierno.formula1.PacketConstants;
  */
 public class PacketCarSetupData extends Packet {
 
-    public static final int SIZE = 1102;
+    // 1102
+    public static final int SIZE = PacketHeader.SIZE +
+                                    CarSetupData.SIZE * PacketConstants.CARS ;
     
     private List<CarSetupData> carSetupData = new ArrayList<>(PacketConstants.CARS);
 
@@ -67,6 +69,8 @@ public class PacketCarSetupData extends Packet {
     }
 
     public class CarSetupData {
+
+        public static final int SIZE = 49;
 
         private short frontWing;
         private short rearWing;

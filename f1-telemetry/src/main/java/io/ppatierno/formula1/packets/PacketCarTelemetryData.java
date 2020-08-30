@@ -23,7 +23,10 @@ import io.ppatierno.formula1.enums.SurfaceType;
  */
 public class PacketCarTelemetryData extends Packet {
 
-    public static final int SIZE = 1307;
+    // 1307
+    public static final int SIZE = PacketHeader.SIZE +
+                                    CarTelemetryData.SIZE * PacketConstants.CARS +
+                                    7;
     
     private List<CarTelemetryData> carTelemetryData = new ArrayList<>(PacketConstants.CARS);
     private long buttonStatus;
@@ -135,6 +138,8 @@ public class PacketCarTelemetryData extends Packet {
     }
 
     public class CarTelemetryData {
+
+        public static final int SIZE = 58;
 
         private int speed;
         private float throttle;

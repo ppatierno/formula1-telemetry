@@ -24,7 +24,10 @@ import io.ppatierno.formula1.enums.Team;
  */
 public class PacketLobbyInfoData extends Packet {
 
-    public static final int SIZE = 1169;
+    // 1169
+    public static final int SIZE = PacketHeader.SIZE +
+                                    1 +
+                                    LobbyInfoData.SIZE * PacketConstants.LOBBY_PLAYERS;
     
     private short numPlayers;
     private List<LobbyInfoData> lobbyInfoData = new ArrayList<>(PacketConstants.LOBBY_PLAYERS);
@@ -86,6 +89,8 @@ public class PacketLobbyInfoData extends Packet {
     }
 
     public class LobbyInfoData {
+
+        public static final int SIZE = 52;
 
         public static final int NAME_LENGTH = 48;
 

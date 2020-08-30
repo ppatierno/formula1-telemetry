@@ -21,7 +21,10 @@ import io.ppatierno.formula1.PacketUtils;
  */
 public class PacketMotionData extends Packet {
 
-    public static final int SIZE = 1464;
+    // 1464
+    public static final int SIZE = PacketHeader.SIZE + 
+                                    CarMotionData.SIZE * PacketConstants.CARS + 
+                                    ExtraCarMotionData.SIZE;
     
     private List<CarMotionData> carMotionData = new ArrayList<>(PacketConstants.CARS);
     private ExtraCarMotionData extraCarMotionData = new ExtraCarMotionData();
@@ -83,6 +86,8 @@ public class PacketMotionData extends Packet {
     }
 
     public class CarMotionData {
+
+        public static final int SIZE = 60;
 
         private float worldPositionX;
         private float worldPositionY;
@@ -382,6 +387,8 @@ public class PacketMotionData extends Packet {
     }
 
     public class ExtraCarMotionData {
+
+        public static final int SIZE = 120;
 
         // Wheels in order: RL, RR, FL, FR.
         private float[] suspensionPosition = new float[PacketConstants.WHEELS];

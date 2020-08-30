@@ -22,7 +22,9 @@ import io.ppatierno.formula1.enums.Sector;
  */
 public class PacketLapData extends Packet {
 
-    public static final int SIZE = 1190;
+    // 1190
+    public static final int SIZE = PacketHeader.SIZE +
+                                    LapData.SIZE * PacketConstants.CARS;
     
     private List<LapData> lapData = new ArrayList<>(PacketConstants.CARS);
 
@@ -69,6 +71,8 @@ public class PacketLapData extends Packet {
     }
 
     public class LapData {
+
+        public static final int SIZE = 53;
 
         private float lastLapTime;
         private float currentLapTime;

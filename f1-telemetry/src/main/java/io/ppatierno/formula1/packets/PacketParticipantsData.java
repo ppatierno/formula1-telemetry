@@ -24,7 +24,10 @@ import io.ppatierno.formula1.enums.Team;
  */
 public class PacketParticipantsData extends Packet {
 
-    public static final int SIZE = 1213;
+    // 1213
+    public static final int SIZE = PacketHeader.SIZE + 
+                                    1 + 
+                                    ParticipantData.SIZE * PacketConstants.CARS;
     
     private short numActiveCars;
     private List<ParticipantData> participants = new ArrayList<>(PacketConstants.CARS);
@@ -86,6 +89,8 @@ public class PacketParticipantsData extends Packet {
     }
 
     public class ParticipantData {
+
+        public static final int SIZE = 54;
 
         public static final int NAME_LENGTH = 48;
 

@@ -23,7 +23,10 @@ import io.ppatierno.formula1.enums.ResultStatus;
  */
 public class PacketFinalClassificationData extends Packet {
 
-    public static final int SIZE = 839;
+    // 839
+    public static final int SIZE = PacketHeader.SIZE +
+                                    1 +
+                                    FinalClassificationData.SIZE * PacketConstants.CARS;
     
     private short numCars;
     private List<FinalClassificationData> finalClassificationData = new ArrayList<>(PacketConstants.CARS);
@@ -85,6 +88,8 @@ public class PacketFinalClassificationData extends Packet {
     }
 
     public class FinalClassificationData {
+
+        public static final int SIZE = 37;
 
         private short position;
         private short numLaps;

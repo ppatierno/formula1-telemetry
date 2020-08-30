@@ -15,6 +15,8 @@ import java.math.BigInteger;
  */
 public class PacketHeader {
 
+    public static final int SIZE = 24;
+
     // offset in the raw bytes where the packetId is
     public static final int PACKET_ID_OFFSET = 5;
 

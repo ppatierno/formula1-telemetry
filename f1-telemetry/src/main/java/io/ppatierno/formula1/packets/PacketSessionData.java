@@ -24,7 +24,12 @@ import io.ppatierno.formula1.enums.ZoneFlag;
  */
 public class PacketSessionData extends Packet {
 
-    public static final int SIZE = 251;
+    // 251
+    public static final int SIZE = PacketHeader.SIZE + 
+                                    19 + 
+                                    MarshalZone.SIZE * PacketConstants.MARSHAL_ZONES + 
+                                    3 + 
+                                    WeatherForecastSample.SIZE * PacketConstants.WEATHER_FORECAST_SAMPLES;
 
     private Weather weather;
     private short trackTemperature;
@@ -392,6 +397,8 @@ public class PacketSessionData extends Packet {
 
     public class MarshalZone {
 
+        public static final int SIZE = 5;
+
         private float zoneStart;
         public ZoneFlag zoneFlag;
 
@@ -452,6 +459,8 @@ public class PacketSessionData extends Packet {
     }
 
     public class WeatherForecastSample {
+
+        public static final int SIZE = 5;
         
         private SessionType sessionType;
         private short timeOffset;

@@ -18,7 +18,10 @@ import io.ppatierno.formula1.enums.PenaltyType;
  */
 public class PacketEventData extends Packet {
 
-    public static final int SIZE = 35;
+    // 35
+    public static final int SIZE = PacketHeader.SIZE + 
+                                    4 + 
+                                    EventDataDetails.SIZE;
     
     private EventCode eventCode;
     private EventDataDetails eventDataDetails = new EventDataDetails();
@@ -140,6 +143,8 @@ public class PacketEventData extends Packet {
     }
 
     class EventDataDetails {
+
+        public static final int SIZE = 7;
 
         private FastestLap fastestLap;
         private Retirement retirement;

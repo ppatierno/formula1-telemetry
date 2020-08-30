@@ -26,7 +26,9 @@ import io.ppatierno.formula1.enums.VehicleFiaFlag;
  */
 public class PacketCarStatusData extends Packet {
 
-    public static final int SIZE = 1344;
+    // 1344
+    public static final int SIZE = PacketHeader.SIZE
+                                    + CarStatusData.SIZE * PacketConstants.CARS;
     
     private List<CarStatusData> carStatusData = new ArrayList<>(PacketConstants.CARS);
 
@@ -73,6 +75,8 @@ public class PacketCarStatusData extends Packet {
     }
 
     public class CarStatusData {
+
+        public static final int SIZE = 60;
 
         private TractionControl tractionControl;
         private short antiLockBrakes;
