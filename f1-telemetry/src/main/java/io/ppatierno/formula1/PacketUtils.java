@@ -27,7 +27,9 @@ public class PacketUtils {
         int result = buffer.bytesBefore(maxLength, (byte) 0);
         // if the string is not null terminated, just read all the characters
         result = result == -1 ? maxLength : result;
-        String s = buffer.readBytes(result).toString(Charset.forName("UTF-8"));
+        ByteBuf b = buffer.readBytes(result);
+        String s = b.toString(Charset.forName("UTF-8"));
+        b.release();
         buffer.skipBytes(maxLength - result);
         return s;
     }
