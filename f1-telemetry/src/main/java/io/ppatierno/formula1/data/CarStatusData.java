@@ -10,8 +10,10 @@ import io.ppatierno.formula1.enums.DrsAllowed;
 import io.ppatierno.formula1.enums.ErsDeployMode;
 import io.ppatierno.formula1.enums.FuelMix;
 import io.ppatierno.formula1.enums.TractionControl;
-import io.ppatierno.formula1.enums.TyreCompound;
+import io.ppatierno.formula1.enums.ActualTyreCompound;
 import io.ppatierno.formula1.enums.VehicleFiaFlag;
+import io.ppatierno.formula1.enums.VisualTyreCompound;
+
 
 import java.util.Arrays;
 
@@ -33,8 +35,8 @@ public class CarStatusData {
     private DrsAllowed drsAllowed;
     private int drsActivationDistance;
     private short tyresWear[] = new short[PacketConstants.TYRES];
-    private TyreCompound actualTyreCompound;
-    private TyreCompound visualTyreCompound;
+    private ActualTyreCompound actualTyreCompound;
+    private VisualTyreCompound visualTyreCompound;
     private short tyresAgeLaps;
     private short tyresDamage[] = new short[PacketConstants.TYRES];
     private short frontLeftWingDamage;
@@ -73,8 +75,8 @@ public class CarStatusData {
         for (int j = 0; j < PacketConstants.TYRES; j++) {
             this.tyresWear[j] = buffer.readUnsignedByte();
         }
-        this.actualTyreCompound = TyreCompound.valueOf(buffer.readUnsignedByte());
-        this.visualTyreCompound = TyreCompound.valueOf(buffer.readUnsignedByte());
+        this.actualTyreCompound = ActualTyreCompound.valueOf(buffer.readUnsignedByte());
+        this.visualTyreCompound = VisualTyreCompound.valueOf(buffer.readUnsignedByte());
         this.tyresAgeLaps = buffer.readUnsignedByte();
         for (int j = 0; j < PacketConstants.TYRES; j++) {
             this.tyresDamage[j] = buffer.readUnsignedByte();
@@ -304,11 +306,11 @@ public class CarStatusData {
      * F1 Classic - 9 = dry, 10 = wet
      * F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard, 15 = wet
      */
-    public TyreCompound getActualTyreCompound() {
+    public ActualTyreCompound getActualTyreCompound() {
         return actualTyreCompound;
     }
 
-    public void setActualTyreCompound(TyreCompound actualTyreCompound) {
+    public void setActualTyreCompound(ActualTyreCompound actualTyreCompound) {
         this.actualTyreCompound = actualTyreCompound;
     }
 
@@ -318,11 +320,11 @@ public class CarStatusData {
      * F1 Classic – same as above
      * F2 – same as above
      */
-    public TyreCompound getVisualTyreCompound() {
+    public VisualTyreCompound getVisualTyreCompound() {
         return visualTyreCompound;
     }
 
-    public void setVisualTyreCompound(TyreCompound visualTyreCompound) {
+    public void setVisualTyreCompound(VisualTyreCompound visualTyreCompound) {
         this.visualTyreCompound = visualTyreCompound;
     }
 
