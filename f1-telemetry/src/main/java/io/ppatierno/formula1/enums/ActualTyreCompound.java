@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tyre compound
+ * Actual tyre compound
  */
-public enum TyreCompound {
+public enum ActualTyreCompound {
     UNKNOWN(0),
     F1_C5(16),
     F1_C4(17),
@@ -27,21 +27,21 @@ public enum TyreCompound {
     F2_HARD(14),
     F2_WET(15);
     
-    private static Map<Integer, TyreCompound> map = new HashMap<>();
+    private static Map<Integer, ActualTyreCompound> map = new HashMap<>();
 
     static {
-        for (TyreCompound tyreCompound : TyreCompound.values()) {
-            map.put(tyreCompound.value, tyreCompound);
+        for (ActualTyreCompound actualTyreCompound : ActualTyreCompound.values()) {
+            map.put(actualTyreCompound.value, actualTyreCompound);
         }
     }
 
     private int value;
     
-    TyreCompound(int value) {
+    ActualTyreCompound(int value) {
         this.value = value;
     }
 
-    public static TyreCompound valueOf(int value) {
+    public static ActualTyreCompound valueOf(int value) {
         return map.get(value);
     }
 
