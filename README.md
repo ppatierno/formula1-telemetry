@@ -7,3 +7,11 @@ Starting from the raw bytes, it builds a specific model exposing all the telemet
 ## Packets specification
 
 The telemetry packets specification is in the official CodeMasters forum [here](https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
+
+## Build
+
+In order to build and install the library in the local Maven repository, just run the following command.
+
+```shell
+mvn install
+```
