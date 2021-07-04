@@ -1,4 +1,4 @@
-![Build](https://github.com/ppatierno/formula1-telemetry/actions/workflows/build.yml/badge.svg)
+[![Build](https://github.com/ppatierno/formula1-telemetry/actions/workflows/build.yml/badge.svg)](https://github.com/ppatierno/formula1-telemetry/actions/workflows/build.yml)
 
 # Formula 1 - Telemetry decoding
 
