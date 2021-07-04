@@ -1,3 +1,5 @@
+![Build](https://github.com/ppatierno/formula1-telemetry/actions/workflows/build.yml/badge.svg)
+
 # Formula 1 - Telemetry decoding
 
 Formula 1 2020 game (by CodeMasters) for PC, PS4 and XBox, allows enabling telemetry data to be sent over UDP during a race.
