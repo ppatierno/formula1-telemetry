@@ -19,5 +19,12 @@ jobs:
           distribution: 'adopt'
       - name: Checkout formula1-telemetry library
         uses: actions/checkout@v2
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Build formula1-telemetry library with Maven
         run: mvn -B package
