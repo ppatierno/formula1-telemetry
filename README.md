@@ -9,7 +9,7 @@ Starting from the raw bytes, it builds a specific model exposing all the telemet
 
 ## Packets specification
 
-The telemetry packets specification is in the official CodeMasters forum [here](https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
+The telemetry packets specification is in the official CodeMasters forum [here](https://forums.codemasters.com/topic/54423-f1%C2%AE-2020-udp-specification/).
 
 ## Build
 
