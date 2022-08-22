@@ -39,7 +39,8 @@ public class PacketEventHandler extends SimpleChannelInboundHandler<Packet> {
         if (msg.getHeader().getPacketId() == PacketId.PARTICIPANTS) {
             PacketParticipantsData packetParticipantsData = (PacketParticipantsData) msg;
             for (ParticipantData participantData : packetParticipantsData.getParticipants()) {
-                log.debug(participantData.getTeamId().name() + " " + participantData.getTeamId().getValue());
+                log.debug(participantData.getDriverId().name() + "[" + participantData.getDriverId().getValue() + "] " +
+                        participantData.getTeamId().name() + "[" + participantData.getTeamId().getValue() + "]");
             }
         }
     }
