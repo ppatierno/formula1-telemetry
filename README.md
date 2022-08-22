@@ -18,3 +18,9 @@ In order to build and install the library in the local Maven repository, just ru
 ```shell
 mvn install
 ```
+
+## Tools
+
+The `f1-telemetry-enum-extractor` project provides a tool for converting a CSV file with teams, drivers or tracks information into corresponding Java enums.
+The CSV has to have a couple per line in the format `<ID, team|driver|track>`.
+The produced Java enums list is useful for developer purposes when adding new seasons to the library.
