@@ -11,6 +11,10 @@ Starting from the raw bytes, it builds a specific model exposing all the telemet
 
 The telemetry packets specification is in the official CodeMasters forum [here](https://forums.codemasters.com/topic/54423-f1%C2%AE-2020-udp-specification/).
 
+## Season selection
+
+In order to select the season to be used for teams, drivers and tracks, you need to set the `F1_TELEMETRY_SEASON` environment variable when starting the application using the library itself.
+
 ## Build
 
 In order to build and install the library in the local Maven repository, just run the following command.

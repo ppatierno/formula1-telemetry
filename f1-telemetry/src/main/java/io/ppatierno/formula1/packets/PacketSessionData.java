@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import io.ppatierno.formula1.PacketConfig;
 import io.ppatierno.formula1.PacketConstants;
 import io.ppatierno.formula1.data.MarshalZone;
 import io.ppatierno.formula1.data.WeatherForecastSample;
@@ -340,7 +341,7 @@ public class PacketSessionData extends Packet {
         this.totalLaps = buffer.readUnsignedByte();
         this.trackLength = buffer.readUnsignedShortLE();
         this.sessionType = SessionType.valueOf(buffer.readUnsignedByte());
-        this.trackId = Track.valueOf(buffer.readByte());
+        this.trackId = Track.valueOf(PacketConfig.getSeason(), buffer.readByte());
         this.formula = Formula.valueOf(buffer.readUnsignedByte());
         this.sessionTimeLeft = buffer.readUnsignedShortLE();
         this.sessionDuration = buffer.readUnsignedShortLE();

@@ -54,7 +54,7 @@ public class PacketEventMonitor {
         );
         try {
             Channel channel = monitor.bind();
-            System.out.println("PacketEventMonitor running");
+            System.out.println("PacketEventMonitor running [season " + PacketConfig.getSeason() + "]");
             channel.closeFuture().sync();
         } finally {
             monitor.stop();
