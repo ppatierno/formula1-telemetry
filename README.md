@@ -19,6 +19,7 @@ The telemetry packets specification is in the official CodeMasters forum [here](
 ## Season selection
 
 In order to select the season to be used for teams, drivers and tracks, you need to set the `F1_TELEMETRY_SEASON` environment variable when starting the application using the library itself.
+By default, without the environment variable set, the 2020 season data is used.
 
 ## Build
 
