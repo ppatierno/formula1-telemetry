@@ -3,9 +3,14 @@
 
 # Formula 1 - Telemetry decoding
 
-Formula 1 2020 game (by CodeMasters) for PC, PS4 and XBox, allows enabling telemetry data to be sent over UDP during a race.
+Formula 1 202x game (by CodeMasters/EA Sports) for PC, PS4 and XBox, allows enabling telemetry data to be sent over UDP during a race.
 This Java library provides a decoder for all the produced packets.
 Starting from the raw bytes, it builds a specific model exposing all the telemetry data.
+
+The packet format is the one from the 2020 edition, but the library can be used with the latest game editions as well.
+In order to do so, you have to select the packet format as 2020 when enabling the telemetry in the game.
+Anyway, the library allows selecting the latest seasons for teams, drivers and tracks even if using the old 2020 packet format.
+For more information see [season selection](#season-selection)
 
 ## Packets specification
 
