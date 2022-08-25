@@ -34,3 +34,11 @@ mvn install
 The `f1-telemetry-enum-extractor` project provides a tool for converting a CSV file with teams, drivers or tracks information into corresponding Java enums.
 The CSV has to have a couple per line in the format `<ID, team|driver|track>`.
 The produced Java enums list is useful for developer purposes when adding new seasons to the library.
+The application gets two arguments:
+
+* the path of the input CSV file
+* the path of the output Java enum file
+
+```shell
+java -jar f1-telemetry-enum-extractor/target/f1-telemetry-enum-extractor-1.0-SNAPSHOT.jar <path-to-input-CSV> <path-to-output-java-enum>
+```
