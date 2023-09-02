@@ -12,6 +12,7 @@
   <modules>
       <module>f1-telemetry</module>
       <module>f1-telemetry-monitor</module>
+      <module>f1-telemetry-enum-extractor</module>
   </modules>
 
   <properties>
@@ -70,6 +71,15 @@
       </pluginManagement>
   </build>
 
+  <distributionManagement>
+      <repository>
+          <id>github</id>
+          <name>GitHub OWNER Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/${GITHUB_REPOSITORY}</url>
+      </repository>
+  </distributionManagement>
+
+  
   <licenses>
       <license>
           <name>Apache License, Version 2.0</name>

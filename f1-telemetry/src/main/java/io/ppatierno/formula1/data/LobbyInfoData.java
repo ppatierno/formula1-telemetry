@@ -5,6 +5,7 @@
 package io.ppatierno.formula1.data;
 
 import io.netty.buffer.ByteBuf;
+import io.ppatierno.formula1.PacketConfig;
 import io.ppatierno.formula1.PacketUtils;
 import io.ppatierno.formula1.enums.Nationality;
 import io.ppatierno.formula1.enums.ReadyStatus;
@@ -30,7 +31,7 @@ public class LobbyInfoData {
      */
     public LobbyInfoData fill(ByteBuf buffer) {
         this.aiControlled = buffer.readUnsignedByte();
-        this.teamId = Team.valueOf(buffer.readUnsignedByte());
+        this.teamId = Team.valueOf(PacketConfig.getSeason(), buffer.readUnsignedByte());
         this.nationality = Nationality.valueOf(buffer.readUnsignedByte());
         this.name = PacketUtils.readString(buffer, LobbyInfoData.NAME_LENGTH);
         this.readyStatus = ReadyStatus.valueOf(buffer.readUnsignedByte());
